@@ -1,0 +1,1393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#122f5b">
+<title>OICL AO Mobile Work & Policy Desk</title>
+<style>
+:root{--nav:#122f5b;--nav2:#1f5aa6;--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#68758a;--line:#dfe6f0;--soft:#edf4ff;--good:#eaf8ef;--warn:#fff6dc}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--text)}
+header{background:linear-gradient(135deg,var(--nav),var(--nav2));color:#fff;padding:26px 20px 20px;position:sticky;top:0;z-index:20}
+.wrap{max-width:1250px;margin:auto}h1{margin:0;font-size:28px}header p{margin:5px 0 14px;opacity:.9}
+.search{width:100%;padding:15px;border:0;border-radius:12px;font-size:16px;outline:none}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:#fff;padding:9px 13px;border-radius:10px;cursor:pointer;color:var(--nav);font-weight:600}.tab.active{background:var(--nav);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.policy{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 12px rgba(20,45,90,.05);break-inside:avoid}
+.policy h3{font-size:16px;margin:9px 0 13px;line-height:1.3}.pill{display:inline-block;background:var(--soft);color:var(--nav);font-size:11px;font-weight:700;padding:4px 8px;border-radius:99px}
+.btn,.ghost{display:inline-block;border:0;border-radius:9px;padding:8px 10px;font-size:12px;text-decoration:none;cursor:pointer;margin-right:5px}
+.btn{background:var(--nav);color:#fff}.ghost{background:#eef2f7;color:var(--nav)}small{color:var(--muted);display:block;margin-top:10px}
+section{padding:24px 0}h2{color:var(--nav);margin:0 0 10px}.lead{color:var(--muted);margin-top:0}
+.module{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;margin-bottom:14px}
+.workflow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.step{padding:13px;border-radius:10px;background:var(--soft);border:1px solid #d8e5f8}.step b{display:block;margin-bottom:5px}
+.note{background:var(--warn);border:1px solid #eed58e;padding:13px;border-radius:10px}
+.good{background:var(--good);border:1px solid #bfe3c8;padding:13px;border-radius:10px}
+.links a{display:block;margin:8px 0;color:var(--nav)}textarea,input,select{width:100%;padding:10px;border:1px solid #ccd6e3;border-radius:9px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:800px){.two{grid-template-columns:1fr}}
+footer{padding:30px 0;color:var(--muted);font-size:12px}
+.hidden{display:none!important}.count{font-size:13px;color:var(--muted);margin:10px 0}
+/* Anchor fallback: quick cards still open sections when a mobile file preview blocks JavaScript. */
+section.hidden:target{display:block!important}
+.quick-card{display:block;color:inherit;text-decoration:none}
+@media print{header{position:static}.no-print{display:none!important}body{background:#fff}.policy{box-shadow:none}}
+
+/* Live search results */
+.search-results{display:block;margin-top:10px;background:#fff;color:var(--text);border:1px solid var(--line);border-radius:14px;max-height:55vh;overflow:auto;box-shadow:0 8px 25px rgba(0,0,0,.16);padding:8px}.search-result{padding:12px;border-bottom:1px solid var(--line);cursor:pointer}.search-result:last-child{border-bottom:0}.search-result b{display:block;color:var(--nav);font-size:14px}.search-result span{font-size:11px;color:var(--muted)}.search-empty{padding:16px;text-align:center;color:var(--muted);font-size:13px}
+/* Mobile app-style enhancements */
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 20px}
+.quick-card{border:1px solid var(--line);background:#fff;border-radius:18px;padding:16px 10px;text-align:center;cursor:pointer;box-shadow:0 4px 14px rgba(18,47,91,.07);transition:.15s}
+.quick-card:hover{transform:translateY(-2px)}
+.quick-card .ico{font-size:28px;display:block;margin-bottom:8px}.quick-card b{font-size:14px;display:block}.quick-card span{font-size:11px;color:var(--muted);display:block;margin-top:4px}
+.appbar{display:none}
+.mobile-search-label{display:none}
+.search-actions{display:flex;gap:8px;margin-top:8px}.search-btn{border:0;min-height:48px;border-radius:12px;padding:12px 18px;background:#fff;color:var(--nav);font-weight:800;cursor:pointer}.search-page{display:none}.search-page.active{display:block}
+@media(max-width:700px){
+ body{padding-bottom:76px} header{padding:16px 14px 14px;position:sticky;top:0} h1{font-size:21px;line-height:1.15} header p{font-size:12px;margin:5px 0 10px}.search{padding:13px 14px;border-radius:14px;font-size:15px}
+ .wrap{width:100%;padding-left:12px;padding-right:12px}.tabs{display:none}.quick-grid{grid-template-columns:repeat(2,1fr);gap:10px}.quick-card{padding:15px 8px;min-height:96px}.quick-card .ico{font-size:26px;margin-bottom:5px}.quick-card b{font-size:13px}.quick-card span{font-size:10px}
+ main.wrap{padding-top:8px}.module{border-radius:16px;padding:15px}.two{grid-template-columns:1fr!important}.grid{grid-template-columns:1fr!important}.policy{border-radius:15px}.row{flex-wrap:wrap}.btn,.ghost{padding:10px 12px;font-size:13px}h2{font-size:20px}h3{font-size:17px}.lead{font-size:14px}.step{padding:11px 12px}
+ .appbar{display:flex;position:fixed;left:8px;right:8px;bottom:8px;height:60px;background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.15);z-index:100;align-items:center;justify-content:space-around}
+ .appbar button{border:0;background:transparent;color:var(--muted);font-size:10px;font-weight:700;padding:7px 8px;display:flex;flex-direction:column;align-items:center;gap:2px}.appbar button .bi{font-size:20px;line-height:1}.appbar button.active{color:var(--nav)}
+ .mobile-search-label{display:block;font-size:11px;color:#fff;opacity:.8;margin-bottom:5px}.search-actions{display:flex}.search-btn{flex:1;padding:12px}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<h1>OICL AO Complete Work & Policy Desk</h1>
+<p>📱 Mobile-friendly searchable personal reference for Administrative Officer (Scale-I), Generalist</p>
+<label class="mobile-search-label">🔎 Search the AO Desk</label>
+<input id="globalSearch" class="search" placeholder="Type: motor claim, fire, endorsement, DOP..." autocomplete="off">
+<div class="search-actions"><button class="search-btn" type="button" onclick="runSearch()">🔎 SEARCH</button></div>
+<div id="searchResults" class="search-results hidden"></div>
+</div>
+</header>
+
+<main class="wrap">
+<div class="tabs no-print">
+<button class="tab active" onclick="showSection('home',this)">🏠 Dashboard</button>
+<button class="tab" onclick="showSection('policies',this)">📚 Policy Library</button>
+<button class="tab" onclick="showSection('forms',this)">📄 Proposal Forms</button>
+<button class="tab" onclick="showSection('workflows',this)">🧭 Workflows</button>
+<button class="tab" onclick="showSection('checklists',this)">✅ Checklists</button>
+<button class="tab" onclick="showSection('sources',this)">🔗 Official Sources</button>
+<button class="tab" onclick="showSection('notes',this)">📝 My Notes</button>
+</div>
+
+<section id="home">
+<div class="module">
+<h2>What this desk is for</h2>
+<p class="lead">One place to search policy wordings, policy categories, proposal forms, operational workflows, checklists, official OICL pages and regulatory references.</p>
+<div class="note"><b>Authority rule:</b> this is a personal reference tool. The current OICL internal circular, manual, DOP/authority matrix, office order and the applicable policy wording/regulation remain the authority for an actual decision.</div>
+</div>
+<div class="quick-grid no-print">
+<a class="quick-card" href="#workflows" onclick="showSection('workflows');return false;"><span class="ico">🧾</span><b>Claims</b><span>Claim workflow</span></a>
+<a class="quick-card" href="#policies" onclick="showSection('policies');return false;"><span class="ico">🛡️</span><b>Underwriting</b><span>Policy wordings</span></a>
+<a class="quick-card" href="#workflows" onclick="showSection('workflows');return false;"><span class="ico">🔄</span><b>Policy Servicing</b><span>Endorsement & renewals</span></a>
+<a class="quick-card" href="#dop" onclick="showSection('dop');return false;"><span class="ico">📑</span><b>DOP</b><span>Authority check</span></a>
+<a class="quick-card" href="#policies" onclick="showSection('policies');return false;"><span class="ico">📚</span><b>Policy Wordings</b><span>OICL library</span></a>
+<a class="quick-card" href="#forms" onclick="showSection('forms');return false;"><span class="ico">📄</span><b>Proposal Forms</b><span>Forms library</span></a>
+<a class="quick-card" href="#workflows" onclick="showSection('workflows');return false;"><span class="ico">📣</span><b>Grievance</b><span>Complaint route</span></a>
+<a class="quick-card" href="#checklists" onclick="showSection('checklists');return false;"><span class="ico">✅</span><b>Checklists</b><span>File & claim checks</span></a>
+<div class="quick-card" onclick="focusSearch()"><span class="ico">🔎</span><b>Search</b><span>Find anything</span></div>
+</div>
+
+<div class="two">
+<div class="module"><h2>Daily AO route</h2>
+<div class="workflow">
+<div class="step"><b>1. Identify</b>Subject, policy, claim or service request</div>
+<div class="step"><b>2. Verify</b>Facts, documents and system record</div>
+<div class="step"><b>3. Source</b>Current wording / circular / regulation</div>
+<div class="step"><b>4. Authority</b>DOP and referral requirements</div>
+<div class="step"><b>5. Decide</b>Approve, return, seek clarification or escalate</div>
+<div class="step"><b>6. Close</b>Communication, system entry, record and MIS</div>
+</div></div>
+<div class="module"><h2>Profile</h2>
+<p><b>Officer:</b> Prachi Tyagi</p>
+<p><b>Post:</b> Administrative Officer (Scale-I), Generalist</p>
+<p><b>Current department:</b> <input placeholder="Enter after deployment"></p>
+<p><b>Current office:</b> <input placeholder="Enter office"></p>
+</div>
+</div>
+</section>
+
+<section id="policies" class="hidden">
+<h2>OICL Policy Wording Library</h2>
+<p class="lead">Catalog built from OICL's public “Download Policy Terms & Conditions” page. Each card opens the official OICL wording library so the latest available document can be selected there.</p>
+<div class="count" id="policyCount"></div>
+<div class="grid" id="policyGrid"><article class="policy" data-cat="Fire" data-search="fire bharat griha raksha">
+  <div class="pill">Fire</div>
+  <h3>Bharat Griha Raksha</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Fire','Bharat Griha Raksha')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Fire" data-search="fire bharat laghu udyam suraksha">
+  <div class="pill">Fire</div>
+  <h3>Bharat Laghu Udyam Suraksha</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Fire','Bharat Laghu Udyam Suraksha')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Fire" data-search="fire bharat sookshma udyam suraksha">
+  <div class="pill">Fire</div>
+  <h3>Bharat Sookshma Udyam Suraksha</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Fire','Bharat Sookshma Udyam Suraksha')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Fire" data-search="fire fire - standard fire and special perils">
+  <div class="pill">Fire</div>
+  <h3>Fire - Standard Fire and Special Perils</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Fire','Fire - Standard Fire and Special Perils')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Fire" data-search="fire fire - standard fire and special perils - add-on covers">
+  <div class="pill">Fire</div>
+  <h3>Fire - Standard Fire and Special Perils - Add-on Covers</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Fire','Fire - Standard Fire and Special Perils - Add-on Covers')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Fire" data-search="fire fire - standard fire and special perils - standard clauses">
+  <div class="pill">Fire</div>
+  <h3>Fire - Standard Fire and Special Perils - Standard Clauses</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Fire','Fire - Standard Fire and Special Perils - Standard Clauses')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor tyre and rim protect - add on to 2w package policy">
+  <div class="pill">Motor</div>
+  <h3>Tyre and Rim Protect - Add On to 2W Package Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Tyre and Rim Protect - Add On to 2W Package Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor tyre and rim protect - add on to saod policy 2w">
+  <div class="pill">Motor</div>
+  <h3>Tyre and Rim Protect - Add On to SAOD Policy 2W</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Tyre and Rim Protect - Add On to SAOD Policy 2W')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor tyre and rim protect - two wheeler bundled">
+  <div class="pill">Motor</div>
+  <h3>Tyre and Rim Protect - Two Wheeler Bundled</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Tyre and Rim Protect - Two Wheeler Bundled')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor tyre and rim protect add-on to pccv policy">
+  <div class="pill">Motor</div>
+  <h3>Tyre and Rim Protect Add-on to PCCV Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Tyre and Rim Protect Add-on to PCCV Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor tyre and rim protect add-on to private car bundled">
+  <div class="pill">Motor</div>
+  <h3>Tyre and Rim Protect Add-on to Private Car Bundled</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Tyre and Rim Protect Add-on to Private Car Bundled')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor tyre and rim protect add on to private car policy">
+  <div class="pill">Motor</div>
+  <h3>Tyre and Rim Protect Add On to Private Car Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Tyre and Rim Protect Add On to Private Car Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor tyre and rim protect add-on to saod private car">
+  <div class="pill">Motor</div>
+  <h3>Tyre and Rim Protect Add-on to SAOD Private Car</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Tyre and Rim Protect Add-on to SAOD Private Car')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor consumables cover add on to gccv package policy">
+  <div class="pill">Motor</div>
+  <h3>Consumables Cover Add On to GCCV Package Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Consumables Cover Add On to GCCV Package Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor compulsory personal accident policy for owner driver">
+  <div class="pill">Motor</div>
+  <h3>Compulsory Personal Accident Policy for Owner Driver</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Compulsory Personal Accident Policy for Owner Driver')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor gccv-emi protector - add on to gccv package - endt wordings">
+  <div class="pill">Motor</div>
+  <h3>GCCV-EMI Protector - Add on to GCCV Package - Endt Wordings</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','GCCV-EMI Protector - Add on to GCCV Package - Endt Wordings')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor indian motor tariff">
+  <div class="pill">Motor</div>
+  <h3>Indian Motor Tariff</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Indian Motor Tariff')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor misc d-emi protector - add on to misc d - endt wordings">
+  <div class="pill">Motor</div>
+  <h3>Misc D-EMI Protector - Add on to Misc D - Endt Wordings</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Misc D-EMI Protector - Add on to Misc D - Endt Wordings')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor motor - commercial vehicles package">
+  <div class="pill">Motor</div>
+  <h3>Motor - Commercial Vehicles Package</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Motor - Commercial Vehicles Package')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor motor - imt endorsements">
+  <div class="pill">Motor</div>
+  <h3>Motor - IMT Endorsements</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Motor - IMT Endorsements')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor motor - liability only">
+  <div class="pill">Motor</div>
+  <h3>Motor - Liability Only</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Motor - Liability Only')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor motor - private car package policy">
+  <div class="pill">Motor</div>
+  <h3>Motor - Private Car Package Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Motor - Private Car Package Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor motor - two wheeler package">
+  <div class="pill">Motor</div>
+  <h3>Motor - Two Wheeler Package</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Motor - Two Wheeler Package')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to gccv package policy - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to GCCV Package Policy - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to GCCV Package Policy - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to misc package policy - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to Misc Package Policy - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to Misc Package Policy - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to pccv package policy - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to PCCV Package Policy - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to PCCV Package Policy - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to private car package policy - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to Private Car Package Policy - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to Private Car Package Policy - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to private car policy - bundled - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to Private Car Policy - Bundled - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to Private Car Policy - Bundled - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to saod private car - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to SAOD Private Car - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to SAOD Private Car - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to two wheeler package policy - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to Two Wheeler Package Policy - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to Two Wheeler Package Policy - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to two wheeler policy bundled - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to Two Wheeler Policy Bundled - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to Two Wheeler Policy Bundled - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor nil depreciation add on to two wheeler saod policy - endorsement">
+  <div class="pill">Motor</div>
+  <h3>Nil Depreciation Add On to Two Wheeler SAOD Policy - Endorsement</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Nil Depreciation Add On to Two Wheeler SAOD Policy - Endorsement')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor private car package policy - 3 years">
+  <div class="pill">Motor</div>
+  <h3>Private Car Package Policy - 3 Years</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Private Car Package Policy - 3 Years')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor pccv-emi protector - add on to pccv package - endt wordings">
+  <div class="pill">Motor</div>
+  <h3>PCCV-EMI Protector - Add on to PCCV Package - Endt Wordings</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','PCCV-EMI Protector - Add on to PCCV Package - Endt Wordings')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor pccv-key replacement - add-on to pccv package - endt wordings">
+  <div class="pill">Motor</div>
+  <h3>PCCV-Key Replacement - Add-on to PCCV Package - Endt Wordings</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','PCCV-Key Replacement - Add-on to PCCV Package - Endt Wordings')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor private car bundled">
+  <div class="pill">Motor</div>
+  <h3>Private Car Bundled</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Private Car Bundled')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor private car-emi protector - add on to private car - bundled">
+  <div class="pill">Motor</div>
+  <h3>Private Car-EMI Protector - Add on to Private Car - Bundled</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Private Car-EMI Protector - Add on to Private Car - Bundled')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor private car-emi protector - add on to private car package - endt wordings">
+  <div class="pill">Motor</div>
+  <h3>Private Car-EMI Protector - Add on to Private Car Package - Endt Wordings</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Private Car-EMI Protector - Add on to Private Car Package - Endt Wordings')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor return to invoice cover for motor policies - clarification - cr-8511">
+  <div class="pill">Motor</div>
+  <h3>Return to Invoice Cover for Motor Policies - Clarification - CR-8511</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Return to Invoice Cover for Motor Policies - Clarification - CR-8511')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor return to invoice motor add on cover 07 2022">
+  <div class="pill">Motor</div>
+  <h3>Return to Invoice Motor Add on Cover 07 2022</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Return to Invoice Motor Add on Cover 07 2022')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor saod-emi protector - add on to stand-alone own damage - private car">
+  <div class="pill">Motor</div>
+  <h3>SAOD-EMI Protector - Add on to Stand-alone Own Damage - Private Car</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','SAOD-EMI Protector - Add on to Stand-alone Own Damage - Private Car')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor saod-key replacement - add on to standalone own damage - motorised two wheeler">
+  <div class="pill">Motor</div>
+  <h3>SAOD-Key Replacement - Add on to Standalone Own Damage - Motorised Two Wheeler</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','SAOD-Key Replacement - Add on to Standalone Own Damage - Motorised Two Wheeler')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor two wheeler - bundled">
+  <div class="pill">Motor</div>
+  <h3>Two Wheeler - Bundled</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Two Wheeler - Bundled')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor two wheelers-key replacement - add on to motorised-two wheelers package - endt wordings">
+  <div class="pill">Motor</div>
+  <h3>Two Wheelers-Key Replacement - Add on to Motorised-Two Wheelers Package - Endt Wordings</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Two Wheelers-Key Replacement - Add on to Motorised-Two Wheelers Package - Endt Wordings')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor two wheelers-key replacement - add on to two wheeler bundled">
+  <div class="pill">Motor</div>
+  <h3>Two Wheelers-Key Replacement - Add on to Two Wheeler Bundled</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Two Wheelers-Key Replacement - Add on to Two Wheeler Bundled')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Motor" data-search="motor two-wheeler package policy - 5 years">
+  <div class="pill">Motor</div>
+  <h3>Two-Wheeler Package Policy - 5 Years</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Motor','Two-Wheeler Package Policy - 5 Years')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous all risk">
+  <div class="pill">Miscellaneous</div>
+  <h3>All Risk</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','All Risk')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous bank grahak suraksha">
+  <div class="pill">Miscellaneous</div>
+  <h3>Bank Grahak Suraksha</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Bank Grahak Suraksha')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous baggage insurance">
+  <div class="pill">Miscellaneous</div>
+  <h3>Baggage Insurance</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Baggage Insurance')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous bharath darshan - travel insurance policy">
+  <div class="pill">Miscellaneous</div>
+  <h3>Bharath Darshan - Travel Insurance Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Bharath Darshan - Travel Insurance Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous burglary and housebreaking insurance (business premises)">
+  <div class="pill">Miscellaneous</div>
+  <h3>Burglary and Housebreaking Insurance (Business Premises)</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Burglary and Housebreaking Insurance (Business Premises)')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous directors &amp; officers liability insurance">
+  <div class="pill">Miscellaneous</div>
+  <h3>Directors &amp; Officers Liability Insurance</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Directors &amp; Officers Liability Insurance')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous event cancellation insurance policy">
+  <div class="pill">Miscellaneous</div>
+  <h3>Event Cancellation Insurance Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Event Cancellation Insurance Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous flight coupon policy">
+  <div class="pill">Miscellaneous</div>
+  <h3>Flight Coupon Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Flight Coupon Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous group personal accident">
+  <div class="pill">Miscellaneous</div>
+  <h3>Group Personal Accident</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Group Personal Accident')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous householders insurance">
+  <div class="pill">Miscellaneous</div>
+  <h3>Householders Insurance</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Householders Insurance')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous individual personal accident">
+  <div class="pill">Miscellaneous</div>
+  <h3>Individual Personal Accident</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Individual Personal Accident')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous jeweller&#x27;s block insurance">
+  <div class="pill">Miscellaneous</div>
+  <h3>Jeweller&#x27;s Block Insurance</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Jeweller&#x27;s Block Insurance')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous money insurance policy">
+  <div class="pill">Miscellaneous</div>
+  <h3>Money Insurance Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Money Insurance Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous nagarik suraksha group">
+  <div class="pill">Miscellaneous</div>
+  <h3>Nagarik Suraksha Group</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Nagarik Suraksha Group')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous nagarik suraksha individual policy">
+  <div class="pill">Miscellaneous</div>
+  <h3>Nagarik Suraksha Individual Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Nagarik Suraksha Individual Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous neon sign">
+  <div class="pill">Miscellaneous</div>
+  <h3>Neon Sign</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Neon Sign')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous office umbrella">
+  <div class="pill">Miscellaneous</div>
+  <h3>Office Umbrella</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Office Umbrella')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous oriental cancer protect">
+  <div class="pill">Miscellaneous</div>
+  <h3>Oriental Cancer Protect</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Oriental Cancer Protect')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous passenger flight insurance coupon">
+  <div class="pill">Miscellaneous</div>
+  <h3>Passenger Flight Insurance Coupon</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Passenger Flight Insurance Coupon')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous pedal cycle">
+  <div class="pill">Miscellaneous</div>
+  <h3>Pedal Cycle</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Pedal Cycle')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous plate glass">
+  <div class="pill">Miscellaneous</div>
+  <h3>Plate Glass</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Plate Glass')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous professional indemnity policy for ca management">
+  <div class="pill">Miscellaneous</div>
+  <h3>Professional Indemnity Policy for CA Management</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Professional Indemnity Policy for CA Management')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous professional indemnity policy for doctors &amp; medical practitioners">
+  <div class="pill">Miscellaneous</div>
+  <h3>Professional Indemnity Policy for Doctors &amp; Medical Practitioners</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Professional Indemnity Policy for Doctors &amp; Medical Practitioners')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous professional indemnity professional policy for engineers / architects">
+  <div class="pill">Miscellaneous</div>
+  <h3>Professional Indemnity Professional Policy for Engineers / Architects</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Professional Indemnity Professional Policy for Engineers / Architects')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous professional negligence policy for medical establishment">
+  <div class="pill">Miscellaneous</div>
+  <h3>Professional Negligence Policy for Medical Establishment</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Professional Negligence Policy for Medical Establishment')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous public liability act">
+  <div class="pill">Miscellaneous</div>
+  <h3>Public Liability Act</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Public Liability Act')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous public liability non industrial risks">
+  <div class="pill">Miscellaneous</div>
+  <h3>Public Liability Non Industrial Risks</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Public Liability Non Industrial Risks')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous public liability">
+  <div class="pill">Miscellaneous</div>
+  <h3>Public Liability</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Public Liability')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous sampurna udyam suraksha">
+  <div class="pill">Miscellaneous</div>
+  <h3>Sampurna Udyam Suraksha</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Sampurna Udyam Suraksha')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous saral suraksha bima">
+  <div class="pill">Miscellaneous</div>
+  <h3>Saral Suraksha Bima</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Saral Suraksha Bima')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous shopkeepers insurance">
+  <div class="pill">Miscellaneous</div>
+  <h3>Shopkeepers Insurance</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Shopkeepers Insurance')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous student safety">
+  <div class="pill">Miscellaneous</div>
+  <h3>Student Safety</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Student Safety')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous sweet home insurance policy">
+  <div class="pill">Miscellaneous</div>
+  <h3>Sweet Home Insurance Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Sweet Home Insurance Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Miscellaneous" data-search="miscellaneous workmen compensation policy">
+  <div class="pill">Miscellaneous</div>
+  <h3>Workmen Compensation Policy</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Miscellaneous','Workmen Compensation Policy')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health oriental youth eco care">
+  <div class="pill">Health</div>
+  <h3>Oriental Youth Eco Care</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Oriental Youth Eco Care')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health arogya sanjeevani - oriental insurance">
+  <div class="pill">Health</div>
+  <h3>Arogya Sanjeevani - Oriental Insurance</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Arogya Sanjeevani - Oriental Insurance')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health happy family floater - 2021">
+  <div class="pill">Health</div>
+  <h3>Happy Family Floater - 2021</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Happy Family Floater - 2021')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health health of privileged elders">
+  <div class="pill">Health</div>
+  <h3>Health of Privileged Elders</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Health of Privileged Elders')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health mediclaim insurance - group">
+  <div class="pill">Health</div>
+  <h3>Mediclaim Insurance - Group</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Mediclaim Insurance - Group')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health mediclaim insurance - individual">
+  <div class="pill">Health</div>
+  <h3>Mediclaim Insurance - Individual</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Mediclaim Insurance - Individual')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health oriental dengue kavach">
+  <div class="pill">Health</div>
+  <h3>Oriental Dengue Kavach</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Oriental Dengue Kavach')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health oriental happy cash - nischint rahein">
+  <div class="pill">Health</div>
+  <h3>Oriental Happy Cash - Nischint Rahein</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Oriental Happy Cash - Nischint Rahein')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health oriental insurance bank saathi">
+  <div class="pill">Health</div>
+  <h3>Oriental Insurance Bank Saathi</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Oriental Insurance Bank Saathi')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health oriental super health top-up">
+  <div class="pill">Health</div>
+  <h3>Oriental Super Health Top-up</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Oriental Super Health Top-up')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health overseas mediclaim - business and holiday">
+  <div class="pill">Health</div>
+  <h3>Overseas Mediclaim - Business and Holiday</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Overseas Mediclaim - Business and Holiday')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health overseas mediclaim - employment and study">
+  <div class="pill">Health</div>
+  <h3>Overseas Mediclaim - Employment and Study</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Overseas Mediclaim - Employment and Study')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Health" data-search="health pravasi bharatiya bima yojana - 2017">
+  <div class="pill">Health</div>
+  <h3>Pravasi Bharatiya Bima Yojana - 2017</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Health','Pravasi Bharatiya Bima Yojana - 2017')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article>
+<article class="policy" data-cat="Aviation" data-search="aviation uav udan policy wordings">
+  <div class="pill">Aviation</div>
+  <h3>UAV UDAN Policy Wordings</h3>
+  <div class="row">
+    <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">Official wording</a>
+    <button class="ghost" onclick="saveFav('Aviation','UAV UDAN Policy Wordings')">☆ Save</button>
+  </div>
+  <small>Source: OICL public Policy Terms & Conditions library</small>
+</article></div>
+</section>
+
+<section id="forms" class="hidden">
+<h2>OICL Proposal Form Library</h2>
+<p class="lead">Proposal-form catalog based on OICL's public proposal-form library.</p>
+<div class="count" id="formCount"></div>
+<div class="grid"><article class="policy form-card" data-cat="Fire" data-search="fire bharat griha raksha">
+  <div class="pill">Fire</div><h3>Bharat Griha Raksha</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Fire" data-search="fire bharat laghu udyam suraksha">
+  <div class="pill">Fire</div><h3>Bharat Laghu Udyam Suraksha</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Fire" data-search="fire bharat sookshma udyam suraksha">
+  <div class="pill">Fire</div><h3>Bharat Sookshma Udyam Suraksha</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Motor" data-search="motor motor insurance - private car">
+  <div class="pill">Motor</div><h3>Motor Insurance - Private Car</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Motor" data-search="motor motor insurance - two wheeler">
+  <div class="pill">Motor</div><h3>Motor Insurance - Two Wheeler</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous all risk">
+  <div class="pill">Miscellaneous</div><h3>All Risk</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous baggage">
+  <div class="pill">Miscellaneous</div><h3>Baggage</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous banker&#x27;s indemnity">
+  <div class="pill">Miscellaneous</div><h3>Banker&#x27;s Indemnity</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous bank grahak suraksha">
+  <div class="pill">Miscellaneous</div><h3>Bank Grahak Suraksha</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous bharath darshan - travel insurance policy">
+  <div class="pill">Miscellaneous</div><h3>Bharath Darshan - Travel Insurance Policy</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous burglary and housebreaking insurance (business premises)">
+  <div class="pill">Miscellaneous</div><h3>Burglary and Housebreaking Insurance (Business Premises)</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous carrier liability">
+  <div class="pill">Miscellaneous</div><h3>Carrier Liability</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous directors &amp; officers liability insurance">
+  <div class="pill">Miscellaneous</div><h3>Directors &amp; Officers Liability Insurance</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous employee fidelity guarantee">
+  <div class="pill">Miscellaneous</div><h3>Employee Fidelity Guarantee</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous employer fidelity guarantee">
+  <div class="pill">Miscellaneous</div><h3>Employer Fidelity Guarantee</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous flight coupon policy">
+  <div class="pill">Miscellaneous</div><h3>Flight Coupon Policy</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous group pa">
+  <div class="pill">Miscellaneous</div><h3>Group PA</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous house holders">
+  <div class="pill">Miscellaneous</div><h3>House Holders</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous lift insurance">
+  <div class="pill">Miscellaneous</div><h3>Lift Insurance</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous money insurance policy">
+  <div class="pill">Miscellaneous</div><h3>Money Insurance Policy</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous nagrik suraksha group">
+  <div class="pill">Miscellaneous</div><h3>Nagrik Suraksha Group</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous nagrik suraksha individual">
+  <div class="pill">Miscellaneous</div><h3>Nagrik Suraksha Individual</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous neon sign">
+  <div class="pill">Miscellaneous</div><h3>Neon Sign</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous jewellers block">
+  <div class="pill">Miscellaneous</div><h3>Jewellers Block</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous oriental cancer protect">
+  <div class="pill">Miscellaneous</div><h3>Oriental Cancer Protect</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous pa individual">
+  <div class="pill">Miscellaneous</div><h3>PA Individual</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous pedal cycle">
+  <div class="pill">Miscellaneous</div><h3>Pedal Cycle</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous plate glass insurance">
+  <div class="pill">Miscellaneous</div><h3>Plate Glass Insurance</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous product-liability">
+  <div class="pill">Miscellaneous</div><h3>Product-Liability</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous professional indemnity - ca management">
+  <div class="pill">Miscellaneous</div><h3>Professional Indemnity - CA Management</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous professional indemnity - doctor">
+  <div class="pill">Miscellaneous</div><h3>Professional Indemnity - Doctor</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous professional indemnity - engineers / architects">
+  <div class="pill">Miscellaneous</div><h3>Professional Indemnity - Engineers / Architects</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous professional negligence - medical establishment">
+  <div class="pill">Miscellaneous</div><h3>Professional Negligence - Medical Establishment</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous public liability act">
+  <div class="pill">Miscellaneous</div><h3>Public Liability Act</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous public liability industrial questionnaire">
+  <div class="pill">Miscellaneous</div><h3>Public Liability Industrial Questionnaire</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous public liability insurance">
+  <div class="pill">Miscellaneous</div><h3>Public Liability Insurance</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous sampurna udyam suraksha">
+  <div class="pill">Miscellaneous</div><h3>Sampurna Udyam Suraksha</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous saral suraksha bima">
+  <div class="pill">Miscellaneous</div><h3>Saral Suraksha Bima</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous shopkeeper">
+  <div class="pill">Miscellaneous</div><h3>Shopkeeper</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous student safety insurance">
+  <div class="pill">Miscellaneous</div><h3>Student Safety Insurance</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous sweet home insurance">
+  <div class="pill">Miscellaneous</div><h3>Sweet Home Insurance</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Miscellaneous" data-search="miscellaneous workmen compensation policy">
+  <div class="pill">Miscellaneous</div><h3>Workmen Compensation Policy</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental youth eco care">
+  <div class="pill">Health</div><h3>Oriental Youth Eco Care</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health saksham swasthya policy">
+  <div class="pill">Health</div><h3>Saksham Swasthya Policy</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health happy family floater policy-2021">
+  <div class="pill">Health</div><h3>Happy Family Floater Policy-2021</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental mediclaim insurance policy - individual">
+  <div class="pill">Health</div><h3>Oriental Mediclaim Insurance Policy - Individual</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health mediclaim insurance policy - group">
+  <div class="pill">Health</div><h3>Mediclaim Insurance Policy - Group</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental happy cash - nischint rahein">
+  <div class="pill">Health</div><h3>Oriental Happy Cash - Nischint Rahein</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental super health top-up">
+  <div class="pill">Health</div><h3>Oriental Super Health Top-up</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health pravasi bharatiya bima yojana-2017">
+  <div class="pill">Health</div><h3>Pravasi Bharatiya Bima Yojana-2017</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health health of privileged elders">
+  <div class="pill">Health</div><h3>Health of Privileged Elders</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health arogya sanjeevani policy - oriental">
+  <div class="pill">Health</div><h3>Arogya Sanjeevani Policy - Oriental</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health overseas mediclaim - employment &amp; study">
+  <div class="pill">Health</div><h3>Overseas Mediclaim - Employment &amp; Study</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental dengue kavach">
+  <div class="pill">Health</div><h3>Oriental Dengue Kavach</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health overseas mediclaim - business &amp; holiday">
+  <div class="pill">Health</div><h3>Overseas Mediclaim - Business &amp; Holiday</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental critical illness policy">
+  <div class="pill">Health</div><h3>Oriental Critical Illness Policy</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental insurance bank saathi - group">
+  <div class="pill">Health</div><h3>Oriental Insurance Bank Saathi - Group</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health oriental cancer protect">
+  <div class="pill">Health</div><h3>Oriental Cancer Protect</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article>
+<article class="policy form-card" data-cat="Health" data-search="health group arogya sanjeevani policy - oriental">
+  <div class="pill">Health</div><h3>Group Arogya Sanjeevani Policy - Oriental</h3>
+  <a class="btn" target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">Open proposal-form library</a>
+</article></div>
+</section>
+
+<section id="workflows" class="hidden">
+<h2>Insurance Workflows</h2>
+<div class="module">
+<h3>Underwriting / New Business</h3>
+<div class="workflow">
+<div class="step"><b>Proposal</b>Completeness and material information</div>
+<div class="step"><b>Risk</b>Risk characteristics, exposure and prior experience</div>
+<div class="step"><b>Coverage</b>Perils, exclusions, conditions, warranties, add-ons</div>
+<div class="step"><b>Pricing</b>Premium/rating basis and applicable tariff/rules</div>
+<div class="step"><b>Authority</b>Current DOP/referral</div>
+<div class="step"><b>Issue</b>Policy, schedule, endorsements and records</div>
+</div></div>
+<div class="module">
+<h3>Claims</h3>
+<div class="workflow">
+<div class="step"><b>Intimation</b>Register and identify policy/claim</div>
+<div class="step"><b>Coverage</b>Validity, insured, peril/event, exclusions</div>
+<div class="step"><b>Documents</b>Check required documents and deficiencies</div>
+<div class="step"><b>Survey/Investigation</b>Where applicable</div>
+<div class="step"><b>Assessment</b>Loss, admissibility, deductions, excess</div>
+<div class="step"><b>Authority</b>DOP / referral / exceptional case</div>
+<div class="step"><b>Decision</b>Settlement, partial settlement or reasoned rejection</div>
+<div class="step"><b>Closure</b>Payment, communication, system/MIS and record</div>
+</div></div>
+<div class="module">
+<h3>Policy Servicing</h3>
+<div class="workflow">
+<div class="step"><b>Renewal</b>Due policy, terms and premium</div>
+<div class="step"><b>Endorsement</b>Requested change and supporting proof</div>
+<div class="step"><b>Correction</b>Record/policy verification</div>
+<div class="step"><b>Cancellation</b>Terms, reason and refund calculation</div>
+<div class="step"><b>Customer</b>Clear written communication</div>
+<div class="step"><b>Record</b>System and document trail</div>
+</div></div>
+<div class="module">
+<h3>Complaint / Grievance</h3>
+<div class="workflow">
+<div class="step"><b>Register</b>Capture issue and policy/claim reference</div>
+<div class="step"><b>Examine</b>Facts, records and applicable wording</div>
+<div class="step"><b>Coordinate</b>Obtain response from concerned function</div>
+<div class="step"><b>Reply</b>Reasoned, source-based response</div>
+<div class="step"><b>Escalate</b>Use prescribed mechanism where unresolved</div>
+<div class="step"><b>Close</b>Record resolution and evidence</div>
+</div></div>
+</section>
+
+<section id="checklists" class="hidden">
+<h2>AO Checklists</h2>
+<div class="two">
+<div class="module"><h3>File examination</h3><ul>
+<li>What exactly is the decision required?</li><li>Chronology and facts clear?</li><li>Applicable policy/rule identified?</li>
+<li>Required documents complete?</li><li>Survey/investigation/expert report needed?</li>
+<li>Financial impact calculated and supported?</li><li>Current DOP/authority checked?</li>
+<li>Any circular amendment / special instruction?</li><li>Reasoned proposal recorded?</li><li>Next action and due date recorded?</li>
+</ul></div>
+<div class="module"><h3>Claim examination</h3><ul>
+<li>Policy active and correct?</li><li>Insured/vehicle/property/event matched?</li><li>Coverage/peril checked?</li>
+<li>Exclusions/conditions/warranties checked?</li><li>Intimation and documents complete?</li><li>Survey/assessment/investigation reviewed?</li>
+<li>Quantum and deductions checked?</li><li>Fraud/red flags considered under applicable process?</li>
+<li>DOP/referral checked?</li><li>Decision communication and system closure planned?</li>
+</ul></div>
+</div>
+</section>
+
+<section id="dop" class="hidden">
+<h2>DOP / Authority Desk</h2>
+<div class="module">
+<p class="lead">Use this screen as the authority checkpoint before taking an approval or settlement decision.</p>
+<div class="workflow">
+<div class="step"><b>1. Identify transaction</b>Underwriting, claim, endorsement, refund, settlement, repudiation, etc.</div>
+<div class="step"><b>2. Check current OICL DOP</b>Use the latest internal DOP / authority matrix applicable to the office and function.</div>
+<div class="step"><b>3. Check referral</b>If outside delegated authority, identify the prescribed referral/escalation channel.</div>
+<div class="step"><b>4. Record authority</b>Note the DOP clause/reference in the file note or system record as required.</div>
+</div>
+</div>
+<div class="warn"><b>Important:</b> A current internal OICL DOP/authority matrix was not publicly verified here. Do not rely on guessed monetary limits. Add only the latest authorised internal DOP available to Prachi.</div>
+</section>
+
+<section id="sources" class="hidden">
+<h2>Official Source Hub</h2>
+<div class="links module">
+<a target="_blank" href="https://csc.orientalinsurance.org.in/download-policy-terms-conditions">OICL - Policy Terms & Conditions</a>
+<a target="_blank" href="https://csc.orientalinsurance.org.in/download-proposal-form">OICL - Proposal Forms</a>
+<a target="_blank" href="https://csc.orientalinsurance.org.in/motor-insurance-policy1">OICL - Motor Policy Terms & Conditions</a>
+<a target="_blank" href="https://csc.orientalinsurance.org.in/renew">OICL - Policy Renewal</a>
+<a target="_blank" href="https://csc.orientalinsurance.org.in/customer-support">OICL - Customer Support</a>
+<a target="_blank" href="https://csc.orientalinsurance.org.in/contact-us">OICL - Contact / Grievance information</a>
+<a target="_blank" href="https://csc.orientalinsurance.org.in/office">OICL - Office Locator</a>
+<a target="_blank" href="https://irdai.gov.in/consolidated-gazette-notified-regulations">IRDAI - Consolidated & Gazette Notified Regulations</a>
+<a target="_blank" href="https://irdai.gov.in/circulars">IRDAI - Circulars / Master Circulars</a>
+</div>
+<div class="good"><b>Important regulatory layer:</b> IRDAI lists the 2024 Insurance Products Regulations and the 2024 Protection of Policyholders' Interests, Operations and Allied Matters Regulations among its current non-archived regulations. IRDAI also publishes Master Circulars on Protection of Policyholders' Interests and Operations and Allied Matters.</div>
+</section>
+
+<section id="notes" class="hidden">
+<h2>Personal Work Notes</h2>
+<div class="module">
+<label><b>Save a note locally in this browser</b></label>
+<textarea id="noteBox" rows="10" placeholder="Enter a work reminder, internal reference, checklist item, or question to verify with the reporting officer..."></textarea>
+<br><br><button class="btn" onclick="saveNote()">Save Note</button>
+<button class="ghost" onclick="clearNotes()">Clear</button>
+<div id="savedNotes" style="margin-top:15px"></div>
+</div>
+<div class="note">Do not enter confidential policyholder/customer data, passwords, internal credentials or restricted OICL information into a personal/public website.</div>
+</section>
+
+<nav class="appbar no-print">
+<button onclick="showSection('home',this)"><span class="bi">🏠</span>Home</button>
+<button onclick="showSection('policies',this)"><span class="bi">📚</span>Policies</button>
+<button onclick="showSection('workflows',this)"><span class="bi">🧭</span>Work</button>
+<button onclick="showSection('checklists',this)"><span class="bi">✅</span>Checks</button>
+<button onclick="showSection('notes',this)"><span class="bi">📝</span>Notes</button>
+<button onclick="focusSearch()"><span class="bi">🔎</span>Search</button>
+</nav>
+
+<footer>
+<div class="wrap">
+<b>OICL AO Mobile Work & Policy Desk</b><br>
+Public-source policy catalog + personal workflow framework. Internal OICL documents must be added only where authorized and only in accordance with OICL information-security/confidentiality requirements.
+</div>
+</footer>
+</main>
+
+<script>
+(function(){
+  'use strict';
+  function byId(id){return document.getElementById(id);}
+  function clean(v){return String(v==null?'':v).toLowerCase().replace(/&amp;/g,'&').replace(/[^a-z0-9]+/g,' ').trim();}
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  var SECTIONS=[
+    ['home','Dashboard / Daily AO Route','daily ao generalist work identify verify source authority decide close'],
+    ['policies','Policy Wording Library','policy wording fire motor miscellaneous health aviation bharat griha motor package liability imt endorsement claim coverage exclusion'],
+    ['forms','Proposal Form Library','proposal form fire motor miscellaneous health underwriting new business'],
+    ['workflows','Insurance Workflows','claim claims motor claim fire claim health claim underwriting new business policy servicing endorsement renewal correction cancellation grievance complaint'],
+    ['checklists','AO Checklists','file examination claim examination documents coverage exclusions survey assessment quantum deductions dop referral'],
+    ['dop','DOP / Authority Desk','dop authority delegated authority approval settlement underwriting claim endorsement refund repudiation referral escalation'],
+    ['sources','Official Source Hub','oicl policy terms proposal forms motor renew customer support grievance irdai regulations circulars'],
+    ['notes','Personal Work Notes','notes work reminder internal reference checklist question']
+  ];
+  function showSection(id, clicked){
+    var sections=document.querySelectorAll('main > section');
+    for(var i=0;i<sections.length;i++) sections[i].classList.add('hidden');
+    var target=byId(id); if(target) target.classList.remove('hidden');
+    var tabs=document.querySelectorAll('.tab'); for(var j=0;j<tabs.length;j++) tabs[j].classList.remove('active');
+    if(clicked && clicked.classList) clicked.classList.add('active');
+    try{history.replaceState(null,'','#'+id);}catch(e){location.hash=id;}
+    window.scrollTo(0,0);
+  }
+  function focusSearch(){var input=byId('globalSearch'); if(input){showSearchArea(); input.focus(); try{input.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}}
+  function showSearchArea(){var box=byId('searchResults'); if(box) box.classList.remove('hidden');}
+  function searchAODesk(){
+    var input=byId('globalSearch'), box=byId('searchResults');
+    if(!input||!box) return;
+    var raw=input.value||'', q=clean(raw); showSearchArea(); box.innerHTML='';
+    if(!q){box.innerHTML='<div class="search-empty">Type <b>claim</b>, <b>motor</b>, <b>fire</b>, <b>health</b>, <b>endorsement</b>, <b>renewal</b>, <b>underwriting</b>, <b>grievance</b> or <b>DOP</b>.</div>';return;}
+    var terms=q.split(/\s+/).filter(Boolean), results=[], i,t,hits,card,hay,hits2,h,parent;
+    for(i=0;i<SECTIONS.length;i++){hay=clean(SECTIONS[i][1]+' '+SECTIONS[i][2]);hits=0;for(t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits++;if(hits)results.push({kind:'section',id:SECTIONS[i][0],title:SECTIONS[i][1],cat:'AO Work',score:hits/terms.length});}
+    var cards=document.querySelectorAll('.policy');
+    for(i=0;i<cards.length;i++){card=cards[i];hay=clean((card.getAttribute('data-search')||'')+' '+card.textContent);hits2=0;for(t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits2++;if(hits2){h=card.querySelector('h3');parent=card.parentElement;while(parent&&parent.tagName!=='SECTION')parent=parent.parentElement;results.push({kind:'card',id:parent?parent.id:'policies',title:h?h.textContent.trim():'Policy / Form',cat:card.getAttribute('data-cat')||'Policy',score:hits2/terms.length,el:card});}}
+    results.sort(function(a,b){return b.score-a.score;}); results=results.slice(0,50);
+    var html='<div style="padding:10px;font-weight:800;color:#122f5b;border-bottom:1px solid #dfe6f0">Found '+results.length+' result'+(results.length===1?'':'s')+' for "'+esc(raw)+'"</div>';
+    if(!results.length)html+='<div class="search-empty">No match found. Try <b>claim</b>, <b>motor</b>, <b>fire</b>, <b>health</b>, <b>endorsement</b>, <b>renewal</b>, <b>underwriting</b>, <b>grievance</b> or <b>DOP</b>.</div>';
+    box.innerHTML=html;
+    for(i=0;i<results.length;i++){
+      (function(item){var b=document.createElement('button');b.type='button';b.className='search-result';b.innerHTML='<b>'+esc(item.title)+'</b><span>'+esc(item.cat)+' — Tap to open</span>';b.onclick=function(){showSection(item.id);if(item.el){try{item.el.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){item.el.scrollIntoView();}item.el.style.outline='3px solid #1f5aa6';setTimeout(function(){item.el.style.outline='';},1500);}box.classList.add('hidden');};box.appendChild(b);})(results[i]);
+    }
+  }
+  function runSearch(e){if(e&&e.preventDefault)e.preventDefault();searchAODesk();return false;}
+  function saveNote(){var box=byId('noteBox'),out=byId('savedNotes');if(!box||!out)return;var n=[];try{n=JSON.parse(localStorage.getItem('oiclAoNotes')||'[]');}catch(e){}if(box.value.trim())n.push({text:box.value.trim(),time:new Date().toLocaleString()});try{localStorage.setItem('oiclAoNotes',JSON.stringify(n));}catch(e){}box.value='';renderNotes();}
+  function renderNotes(){var out=byId('savedNotes');if(!out)return;var n=[];try{n=JSON.parse(localStorage.getItem('oiclAoNotes')||'[]');}catch(e){}out.innerHTML='';for(var i=0;i<n.length;i++)out.innerHTML+='<div class="module"><b>'+esc(n[i].time)+'</b><p>'+esc(n[i].text)+'</p></div>';}
+  function clearNotes(){try{localStorage.removeItem('oiclAoNotes');}catch(e){}renderNotes();}
+  function saveFav(cat,title){var f=[];try{f=JSON.parse(localStorage.getItem('oiclAoFav')||'[]');}catch(e){}f.push({cat:cat,title:title});try{localStorage.setItem('oiclAoFav',JSON.stringify(f));}catch(e){}alert('Saved to favourites');}
+  window.showSection=showSection;window.focusSearch=focusSearch;window.runSearch=runSearch;window.saveNote=saveNote;window.clearNotes=clearNotes;window.saveFav=saveFav;
+  document.addEventListener('DOMContentLoaded',function(){
+    var input=byId('globalSearch'),button=document.querySelector('.search-btn');
+    if(button)button.addEventListener('click',runSearch);
+    if(input)input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();runSearch(e);}});
+    renderNotes();
+    if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(function(){});
+  });
+})();
+</script>
+</body>
+</html>

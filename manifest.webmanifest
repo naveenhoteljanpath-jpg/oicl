@@ -1,0 +1,9 @@
+{
+  "name": "OICL AO Work Desk",
+  "short_name": "OICL AO Desk",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#122f5b",
+  "description": "Mobile-first searchable OICL Administrative Officer work and policy reference desk."
+}
