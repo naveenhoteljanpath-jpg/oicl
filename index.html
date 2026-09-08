@@ -1,202 +1,242 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OICL AO PDF Desk</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: #f0f2f5; color: #333; }
-header { background: #122f5b; color: white; padding: 20px; text-align: center; }
-header h1 { font-size: 24px; }
-header p { font-size: 14px; margin-top: 5px; opacity: 0.9; }
-.container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; border-bottom: 2px solid #ddd; }
-.tab { padding: 12px 20px; background: none; border: none; cursor: pointer; font-size: 14px; font-weight: bold; color: #122f5b; border-bottom: 3px solid transparent; }
-.tab.active { border-bottom-color: #122f5b; }
-.section { display: none; }
-.section.active { display: block; }
-.pdf-box { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin: 10px 0; }
-.pdf-box h3 { color: #122f5b; margin: 0 0 8px 0; font-size: 16px; }
-.pdf-box p { font-size: 13px; color: #666; margin: 0 0 10px 0; }
-.pdf-link { display: inline-block; background: #122f5b; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; }
-.pdf-link:hover { background: #1f5aa6; }
-footer { background: #f9f9f9; padding: 20px; text-align: center; color: #666; font-size: 12px; margin-top: 40px; }
+body { 
+  font-family: Arial, sans-serif; 
+  background-color: #f0f2f5; 
+  margin: 0; 
+  padding: 0; 
+}
+header { 
+  background-color: #122f5b; 
+  color: white; 
+  padding: 20px; 
+  text-align: center; 
+}
+header h1 { 
+  margin: 0; 
+  font-size: 26px; 
+}
+.container { 
+  max-width: 900px; 
+  margin: 20px auto; 
+  padding: 0 15px; 
+}
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.nav-button {
+  padding: 12px 20px;
+  background: #122f5b;
+  color: white;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.nav-button:hover {
+  background: #1f5aa6;
+}
+.content-box {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: none;
+}
+.content-box.active {
+  display: block;
+}
+.pdf-item {
+  background: #f9f9f9;
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+.pdf-item h3 {
+  margin: 0 0 8px 0;
+  color: #122f5b;
+  font-size: 15px;
+}
+.pdf-item p {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 13px;
+}
+.download-link {
+  display: inline-block;
+  background: #122f5b;
+  color: white;
+  padding: 8px 15px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.download-link:hover {
+  background: #1f5aa6;
+}
+footer {
+  background: #f9f9f9;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}
 </style>
 </head>
 <body>
 
 <header>
 <h1>📥 OICL AO PDF Desk</h1>
-<p>Download OICL Policy Wordings, Proposal Forms & Claim Forms</p>
+<p>Download Policy Wordings, Proposal Forms & Claim Forms</p>
 </header>
 
 <div class="container">
 
-<div class="tabs">
-<button class="tab active" onclick="showTab('policies')">📚 Policy Wordings</button>
-<button class="tab" onclick="showTab('forms')">📄 Proposal Forms</button>
-<button class="tab" onclick="showTab('claims')">📬 Claim Forms</button>
-<button class="tab" onclick="showTab('info')">ℹ️ Info</button>
+<div class="button-group">
+<button class="nav-button" onclick="showSection('policies')">📚 Policies</button>
+<button class="nav-button" onclick="showSection('forms')">📄 Forms</button>
+<button class="nav-button" onclick="showSection('claims')">📬 Claims</button>
 </div>
 
-<!-- POLICIES -->
-<div id="policies" class="section active">
+<!-- POLICIES SECTION -->
+<div id="policies" class="content-box active">
 <h2>📚 Policy Wordings</h2>
-<p>Download all OICL policy wordings from the official source:</p>
+<p>Download OICL policy wordings from the official website.</p>
 
-<div class="pdf-box">
-<h3>Motor Policy Wording</h3>
-<p>Standard Motor Insurance Policy - Covers vehicle damage, liability, theft</p>
-<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<div class="pdf-item">
+<h3>Motor Policy</h3>
+<p>Motor Insurance Policy - Vehicle, liability, damage</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
-<h3>Fire Policy Wording</h3>
-<p>Standard Fire Insurance Policy - Property & contents coverage</p>
-<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<div class="pdf-item">
+<h3>Fire Policy</h3>
+<p>Fire Insurance Policy - Property, contents coverage</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
-<h3>Health Policy Wording</h3>
-<p>Health Insurance Policy - Medical coverage and benefits</p>
-<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<div class="pdf-item">
+<h3>Health Policy</h3>
+<p>Health Insurance Policy - Medical coverage</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Miscellaneous Policy</h3>
-<p>Miscellaneous Insurance Policies - Engineering, Liability, Specialty</p>
-<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>Miscellaneous Insurance - Liability, engineering</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Aviation Policy</h3>
-<p>Aviation Insurance Policy - Aircraft & aviation coverage</p>
-<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>Aviation Insurance - Aircraft coverage</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 </div>
 
-<!-- FORMS -->
-<div id="forms" class="section">
+<!-- FORMS SECTION -->
+<div id="forms" class="content-box">
 <h2>📄 Proposal Forms</h2>
-<p>Download all OICL proposal forms from the official source:</p>
+<p>Download OICL proposal forms from the official website.</p>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Motor Proposal Form</h3>
-<p>Proposal Form for Motor Insurance Underwriting</p>
-<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>Proposal Form for Motor Insurance</p>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Fire Proposal Form</h3>
 <p>Proposal Form for Fire Insurance</p>
-<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Health Proposal Form</h3>
 <p>Proposal Form for Health Insurance</p>
-<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Miscellaneous Proposal Form</h3>
 <p>Proposal Form for Miscellaneous Insurance</p>
-<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>General Proposal Form</h3>
-<p>Standard Proposal Form for All Insurance Types</p>
-<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>General Proposal Form</p>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 </div>
 
-<!-- CLAIMS -->
-<div id="claims" class="section">
+<!-- CLAIMS SECTION -->
+<div id="claims" class="content-box">
 <h2>📬 Claim Forms</h2>
-<p>Download all OICL claim forms from the official source:</p>
+<p>Download OICL claim forms from the official website.</p>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Motor Claim Form</h3>
-<p>Claim Form for Motor Insurance - e-claim, damage, theft</p>
-<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>Motor Insurance Claim Form</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Fire Claim Form</h3>
-<p>Claim Form for Fire Insurance - property damage, loss</p>
-<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>Fire Insurance Claim Form</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Health Claim Form</h3>
-<p>Claim Form for Health Insurance - hospitalization, cashless</p>
-<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>Health Insurance Claim Form</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Miscellaneous Claim Form</h3>
-<p>Claim Form for Miscellaneous Insurance</p>
-<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+<p>Miscellaneous Insurance Claim Form</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 
-<div class="pdf-box">
+<div class="pdf-item">
 <h3>Claim Documents Checklist</h3>
 <p>Required documents for claim submission</p>
-<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
-</div>
-</div>
-
-<!-- INFO -->
-<div id="info" class="section">
-<h2>ℹ️ How to Download PDFs</h2>
-<div class="pdf-box">
-<h3>📥 How It Works</h3>
-<p><strong>Step 1:</strong> Click any "Download PDF" button above</p>
-<p><strong>Step 2:</strong> You'll go to OICL's official website</p>
-<p><strong>Step 3:</strong> Look for the document you need and click it</p>
-<p><strong>Step 4:</strong> The PDF will download to your computer</p>
-</div>
-
-<div class="pdf-box">
-<h3>OICL Official Links</h3>
-<p><strong>Policies:</strong> orientalinsurance.org.in/download-policy-terms-conditions</p>
-<p><strong>Proposal Forms:</strong> orientalinsurance.org.in/proposal-form</p>
-<p><strong>Claim Forms:</strong> orientalinsurance.org.in/claim-form</p>
-</div>
-
-<div class="pdf-box">
-<h3>Contact OICL</h3>
-<p><strong>Customer Care:</strong> 1800-102-2013 (Toll-Free)</p>
-<p><strong>Corporate HO:</strong> 011-24348348</p>
-<p><strong>Website:</strong> orientalinsurance.org.in</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="download-link">⬇️ Download</a>
 </div>
 </div>
 
 </div>
 
 <footer>
-<p><strong>OICL AO PDF Desk</strong></p>
-<p>Administrative Officer (Scale-I) Reference Tool for Oriental Insurance Company Limited</p>
-<p>All PDFs link to official OICL sources | Mobile-friendly | No tracking</p>
+<p><strong>OICL AO PDF Desk</strong> | Administrative Officer Reference Tool</p>
+<p>All PDF links go to official OICL website: orientalinsurance.org.in</p>
 </footer>
 
 <script>
-function showTab(tabName) {
+function showSection(sectionId) {
   // Hide all sections
-  const sections = document.querySelectorAll('.section');
-  sections.forEach(s => s.classList.remove('active'));
-  
-  // Remove active class from all tabs
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(t => t.classList.remove('active'));
+  var sections = document.querySelectorAll('.content-box');
+  for (var i = 0; i < sections.length; i++) {
+    sections[i].classList.remove('active');
+  }
   
   // Show selected section
-  document.getElementById(tabName).classList.add('active');
-  
-  // Add active class to clicked tab
-  event.target.classList.add('active');
+  document.getElementById(sectionId).classList.add('active');
 }
 </script>
 
