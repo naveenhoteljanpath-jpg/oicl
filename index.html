@@ -75,6 +75,7 @@ section.hidden:target{display:block!important}
 <button class="tab" onclick="showSection('checklists',this)">✅ Checklists</button>
 <button class="tab" onclick="showSection('sources',this)">🔗 Official Sources</button>
 <button class="tab" onclick="showSection('notes',this)">📝 My Notes</button>
+<button class="tab" onclick="showSection('pdfhub',this)">📥 PDF Hub</button>
 </div>
 
 <section id="home">
@@ -1357,12 +1358,41 @@ section.hidden:target{display:block!important}
 <div class="note">Do not enter confidential policyholder/customer data, passwords, internal credentials or restricted OICL information into a personal/public website.</div>
 </section>
 
+<section id="pdfhub" class="hidden">
+<div class="module">
+<h2>📥 PDF Hub — OICL Documents</h2>
+<p class="lead">Download OICL policy wordings, proposal forms, and claim forms directly from official OICL sources. Search by document type, category, or upload your own PDFs for reference.</p>
+
+<div style="margin-bottom:16px">
+<input id="pdfSearch" class="search" placeholder="Search PDFs: motor policy, fire form, claim..." style="margin-bottom:10px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0">
+  <button class="btn" onclick="searchPDFs()">🔎 Search PDFs</button>
+  <button class="ghost" onclick="resetPDFView()">Reset View</button>
+</div>
+<label style="display:block;margin:15px 0 10px;font-weight:700">Upload Your PDFs (for personal reference):</label>
+<input type="file" id="pdfUpload" accept=".pdf" multiple style="width:100%;margin-bottom:10px">
+<button class="btn" onclick="uploadPDF()">⬆️ Upload PDF</button>
+<div id="uploadStatus" class="count" style="margin-top:10px"></div>
+</div>
+
+<div style="margin-top:20px;margin-bottom:30px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px" id="pdfGrid">
+<!-- PDF cards will load here -->
+</div>
+</div>
+
+<div id="pdfResults" style="display:none">
+<h3>Search Results</h3>
+<div id="pdfResultsList" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px"></div>
+</div>
+</section>
+
 <nav class="appbar no-print">
 <button onclick="showSection('home',this)"><span class="bi">🏠</span>Home</button>
 <button onclick="showSection('policies',this)"><span class="bi">📚</span>Policies</button>
 <button onclick="showSection('workflows',this)"><span class="bi">🧭</span>Work</button>
 <button onclick="showSection('checklists',this)"><span class="bi">✅</span>Checks</button>
-<button onclick="showSection('notes',this)"><span class="bi">📝</span>Notes</button>
+<button onclick="showSection('pdfhub',this)"><span class="bi">📥</span>PDFs</button>
 <button onclick="focusSearch()"><span class="bi">🔎</span>Search</button>
 </nav>
 
@@ -1389,7 +1419,8 @@ Public-source policy catalog + personal workflow framework. Internal OICL docume
     ['checklists','AO Checklists','file examination claim examination documents coverage exclusions survey assessment quantum deductions dop referral'],
     ['dop','DOP / Authority Desk','dop authority delegated authority approval settlement underwriting claim endorsement refund repudiation referral escalation'],
     ['sources','Official Source Hub','oicl policy terms proposal forms motor renew customer support grievance irdai regulations circulars'],
-    ['notes','Personal Work Notes','notes work reminder internal reference checklist question']
+    ['notes','Personal Work Notes','notes work reminder internal reference checklist question'],
+    ['pdfhub','PDF Hub — OICL Documents','pdf policy motor fire health miscellaneous proposal form claim form download']
   ];
   function showSection(id, clicked){
     var sections=document.querySelectorAll('main > section');
@@ -1411,6 +1442,7 @@ Public-source policy catalog + personal workflow framework. Internal OICL docume
     for(i=0;i<SECTIONS.length;i++){hay=clean(SECTIONS[i][1]+' '+SECTIONS[i][2]);hits=0;for(t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits++;if(hits)results.push({kind:'section',id:SECTIONS[i][0],title:SECTIONS[i][1],cat:'AO Work',score:hits/terms.length});}
     var cards=document.querySelectorAll('.policy');
     for(i=0;i<cards.length;i++){card=cards[i];hay=clean((card.getAttribute('data-search')||'')+' '+card.textContent);hits2=0;for(t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits2++;if(hits2){h=card.querySelector('h3');parent=card.parentElement;while(parent&&parent.tagName!=='SECTION')parent=parent.parentElement;results.push({kind:'card',id:parent?parent.id:'policies',title:h?h.textContent.trim():'Policy / Form',cat:card.getAttribute('data-cat')||'Policy',score:hits2/terms.length,el:card});}}
+    for(i=0;i<PDF_DATA.length;i++){var pdf=PDF_DATA[i];hay=clean(pdf.name+' '+pdf.desc+' '+pdf.type+' '+pdf.tags);hits2=0;for(t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits2++;if(hits2)results.push({kind:'pdf',id:'pdfhub',title:pdf.name,cat:pdf.type,score:hits2/terms.length});}
     results.sort(function(a,b){return b.score-a.score;}); results=results.slice(0,50);
     var html='<div style="padding:10px;font-weight:800;color:#122f5b;border-bottom:1px solid #dfe6f0">Found '+results.length+' result'+(results.length===1?'':'s')+' for "'+esc(raw)+'"</div>';
     if(!results.length)html+='<div class="search-empty">No match found. Try <b>claim</b>, <b>motor</b>, <b>fire</b>, <b>health</b>, <b>endorsement</b>, <b>renewal</b>, <b>underwriting</b>, <b>grievance</b> or <b>DOP</b>.</div>';
@@ -1424,12 +1456,40 @@ Public-source policy catalog + personal workflow framework. Internal OICL docume
   function renderNotes(){var out=byId('savedNotes');if(!out)return;var n=[];try{n=JSON.parse(localStorage.getItem('oiclAoNotes')||'[]');}catch(e){}out.innerHTML='';for(var i=0;i<n.length;i++)out.innerHTML+='<div class="module"><b>'+esc(n[i].time)+'</b><p>'+esc(n[i].text)+'</p></div>';}
   function clearNotes(){try{localStorage.removeItem('oiclAoNotes');}catch(e){}renderNotes();}
   function saveFav(cat,title){var f=[];try{f=JSON.parse(localStorage.getItem('oiclAoFav')||'[]');}catch(e){}f.push({cat:cat,title:title});try{localStorage.setItem('oiclAoFav',JSON.stringify(f));}catch(e){}alert('Saved to favourites');}
-  window.showSection=showSection;window.focusSearch=focusSearch;window.runSearch=runSearch;window.saveNote=saveNote;window.clearNotes=clearNotes;window.saveFav=saveFav;
+  // PDF Hub functionality
+  var PDF_DATA=[
+    // POLICIES
+    {cat:'Policy Wording',type:'Policy',name:'Motor Policy',desc:'Standard Motor Insurance Policy Wording',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'motor policy wording'},
+    {cat:'Policy Wording',type:'Policy',name:'Fire Policy',desc:'Standard Fire Insurance Policy Wording',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'fire policy wording'},
+    {cat:'Policy Wording',type:'Policy',name:'Health Policy',desc:'Health Insurance Policy Wording & Terms',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'health policy medical insurance'},
+    {cat:'Policy Wording',type:'Policy',name:'Miscellaneous Policy',desc:'Miscellaneous Insurance Policy Wording',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'miscellaneous liability insurance'},
+    {cat:'Policy Wording',type:'Policy',name:'Aviation Policy',desc:'Aviation Insurance Policy Wording',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'aviation aircraft insurance'},
+    // PROPOSAL FORMS
+    {cat:'Proposal Form',type:'Form',name:'Motor Proposal Form',desc:'Proposal Form for Motor Insurance',link:'https://orientalinsurance.org.in/proposal-form',tags:'motor proposal form underwriting'},
+    {cat:'Proposal Form',type:'Form',name:'Fire Proposal Form',desc:'Proposal Form for Fire Insurance',link:'https://orientalinsurance.org.in/proposal-form',tags:'fire proposal form underwriting'},
+    {cat:'Proposal Form',type:'Form',name:'Health Proposal Form',desc:'Proposal Form for Health Insurance',link:'https://orientalinsurance.org.in/proposal-form',tags:'health proposal medical'},
+    {cat:'Proposal Form',type:'Form',name:'Miscellaneous Proposal Form',desc:'Proposal Form for Miscellaneous Insurance',link:'https://orientalinsurance.org.in/proposal-form',tags:'miscellaneous proposal'},
+    {cat:'Proposal Form',type:'Form',name:'General Proposal Form',desc:'General Proposal Form for New Business',link:'https://orientalinsurance.org.in/proposal-form',tags:'proposal new business'},
+    // CLAIM FORMS
+    {cat:'Claim Form',type:'Claim',name:'Motor Claim Form',desc:'Claim Form for Motor Insurance Claims',link:'https://orientalinsurance.org.in/claim-form',tags:'motor claim form e-claim'},
+    {cat:'Claim Form',type:'Claim',name:'Fire Claim Form',desc:'Claim Form for Fire Insurance Claims',link:'https://orientalinsurance.org.in/claim-form',tags:'fire claim form'},
+    {cat:'Claim Form',type:'Claim',name:'Health Claim Form',desc:'Claim Form for Health Insurance Claims & Hospitalization',link:'https://orientalinsurance.org.in/claim-form',tags:'health claim hospitalization cashless'},
+    {cat:'Claim Form',type:'Claim',name:'Miscellaneous Claim Form',desc:'Claim Form for Miscellaneous Insurance Claims',link:'https://orientalinsurance.org.in/claim-form',tags:'miscellaneous claim'},
+    {cat:'Claim Form',type:'Claim',name:'Claim Documents Checklist',desc:'Required documents for claim submission',link:'https://orientalinsurance.org.in/claim-form',tags:'claim documents checklist required'}
+  ];
+  function renderPDFs(data){var grid=byId('pdfGrid'),html='';for(var i=0;i<data.length;i++){var p=data[i];html+='<div class="policy" data-search="'+clean(p.name+' '+p.desc+' '+p.tags)+'" data-cat="'+p.cat+'"><h3>'+esc(p.name)+'</h3><p style="margin:8px 0;font-size:13px;color:#68758a">'+esc(p.desc)+'</p><span class="pill">'+esc(p.type)+'</span><small style="margin-top:12px">📍 OICL Official Source</small><div style="margin-top:10px"><a href="'+p.link+'" target="_blank" class="btn" style="text-decoration:none">⬇️ Download PDF</a></div></div>';}grid.innerHTML=html;}
+  function searchPDFs(){var input=byId('pdfSearch'),q=clean(input.value||''),results=PDF_DATA;if(q){results=[];var terms=q.split(/\s+/).filter(Boolean);for(var i=0;i<PDF_DATA.length;i++){var p=PDF_DATA[i],hay=clean(p.name+' '+p.desc+' '+p.tags+' '+p.cat),hits=0;for(var t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits++;if(hits)results.push({score:hits/terms.length,pdf:p});} results.sort(function(a,b){return b.score-a.score});results=results.map(function(r){return r.pdf;});}byId('pdfResults').style.display=results.length>0&&q?'block':'none';renderPDFs(results);byId('pdfResultsList').innerHTML='';if(q){for(var i=0;i<results.length;i++){byId('pdfResultsList').innerHTML+='<div class="policy" data-search="'+clean(results[i].name)+'" data-cat="'+results[i].cat+'"><h3>'+esc(results[i].name)+'</h3><p style="margin:8px 0;font-size:13px;color:#68758a">'+esc(results[i].desc)+'</p><span class="pill">'+esc(results[i].type)+'</span><div style="margin-top:10px"><a href="'+results[i].link+'" target="_blank" class="btn" style="text-decoration:none">⬇️ Download PDF</a></div></div>';}}}
+  function resetPDFView(){byId('pdfSearch').value='';renderPDFs(PDF_DATA);byId('pdfResults').style.display='none';}
+  function uploadPDF(){var input=byId('pdfUpload');if(!input||!input.files.length)return alert('Select PDF files first');var files=input.files,uploaded=[];for(var i=0;i<files.length;i++)uploaded.push(files[i].name);var status=byId('uploadStatus');status.innerHTML='<span style="color:#0a7f1a">✅ Uploaded '+uploaded.length+' PDF(s) to local storage</span>';var stored=[];try{stored=JSON.parse(localStorage.getItem('oiclCustomPDFs')||'[]');}catch(e){}for(var i=0;i<files.length;i++){stored.push({name:files[i].name,size:files[i].size,date:new Date().toLocaleDateString()});}try{localStorage.setItem('oiclCustomPDFs',JSON.stringify(stored));}catch(e){status.innerHTML='<span style="color:#c92a2a">⚠️ Error storing PDF metadata</span>';}input.value='';renderCustomPDFs();}
+  function renderCustomPDFs(){var stored=[];try{stored=JSON.parse(localStorage.getItem('oiclCustomPDFs')||'[]');}catch(e){}if(stored.length){var grid=byId('pdfGrid');grid.innerHTML='<div class="module" style="grid-column:1/-1"><h3>📁 Your Uploaded PDFs</h3></div>'+grid.innerHTML;for(var i=0;i<stored.length;i++){var p=stored[i];grid.innerHTML+='<div class="policy"><h3>'+esc(p.name)+'</h3><p style="margin:8px 0;font-size:12px;color:#68758a">'+esc(p.size)+' bytes</p><small>📅 '+esc(p.date)+'</small><small style="color:#c92a2a;margin-top:10px">Note: File stored locally in browser (not on server)</small></div>';}}}
+  window.showSection=showSection;window.focusSearch=focusSearch;window.runSearch=runSearch;window.saveNote=saveNote;window.clearNotes=clearNotes;window.saveFav=saveFav;window.searchPDFs=searchPDFs;window.resetPDFView=resetPDFView;window.uploadPDF=uploadPDF;window.renderCustomPDFs=renderCustomPDFs;
   document.addEventListener('DOMContentLoaded',function(){
     var input=byId('globalSearch'),button=document.querySelector('.search-btn');
     if(button)button.addEventListener('click',runSearch);
     if(input)input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();runSearch(e);}});
     renderNotes();
+    renderPDFs(PDF_DATA);
+    renderCustomPDFs();
     if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(function(){});
   });
 })();
