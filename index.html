@@ -1,414 +1,204 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#122f5b">
-<title>OICL AO Complete Work & PDF Desk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OICL AO PDF Desk</title>
 <style>
-:root{--nav:#122f5b;--nav2:#1f5aa6;--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#68758a;--line:#dfe6f0;--soft:#edf4ff;--good:#eaf8ef;--warn:#fff6dc}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--text)}
-header{background:linear-gradient(135deg,var(--nav),var(--nav2));color:#fff;padding:26px 20px 20px;position:sticky;top:0;z-index:20}
-.wrap{max-width:1250px;margin:auto}h1{margin:0;font-size:28px}header p{margin:5px 0 14px;opacity:.9}
-.search{width:100%;padding:15px;border:0;border-radius:12px;font-size:16px;outline:none}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:#fff;padding:9px 13px;border-radius:10px;cursor:pointer;color:var(--nav);font-weight:600}.tab.active{background:var(--nav);color:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.policy{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 12px rgba(20,45,90,.05);break-inside:avoid}
-.policy h3{font-size:16px;margin:9px 0 13px;line-height:1.3}.pill{display:inline-block;background:var(--soft);color:var(--nav);font-size:11px;font-weight:700;padding:4px 8px;border-radius:99px}
-.btn,.ghost{display:inline-block;border:0;border-radius:9px;padding:8px 10px;font-size:12px;text-decoration:none;cursor:pointer;margin-right:5px}
-.btn{background:var(--nav);color:#fff}.ghost{background:#eef2f7;color:var(--nav)}small{color:var(--muted);display:block;margin-top:10px}
-section{padding:24px 0}h2{color:var(--nav);margin:0 0 10px}.lead{color:var(--muted);margin-top:0}
-.module{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;margin-bottom:14px}
-.workflow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-.step{padding:13px;border-radius:10px;background:var(--soft);border:1px solid #d8e5f8}.step b{display:block;margin-bottom:5px}
-.note{background:var(--warn);border:1px solid #eed58e;padding:13px;border-radius:10px}
-.good{background:var(--good);border:1px solid #bfe3c8;padding:13px;border-radius:10px}
-.links a{display:block;margin:8px 0;color:var(--nav)}textarea,input,select{width:100%;padding:10px;border:1px solid #ccd6e3;border-radius:9px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:800px){.two{grid-template-columns:1fr}}
-footer{padding:30px 0;color:var(--muted);font-size:12px}
-.hidden{display:none!important}.count{font-size:13px;color:var(--muted);margin:10px 0}
-section.hidden:target{display:block!important}
-.quick-card{display:block;color:inherit;text-decoration:none}
-@media print{header{position:static}.no-print{display:none!important}body{background:#fff}.policy{box-shadow:none}}
-.search-results{display:block;margin-top:10px;background:#fff;color:var(--text);border:1px solid var(--line);border-radius:14px;max-height:55vh;overflow:auto;box-shadow:0 8px 25px rgba(0,0,0,.16);padding:8px}.search-result{padding:12px;border-bottom:1px solid var(--line);cursor:pointer}.search-result:last-child{border-bottom:0}.search-result b{display:block;color:var(--nav);font-size:14px}.search-result span{font-size:11px;color:var(--muted)}.search-empty{padding:16px;text-align:center;color:var(--muted);font-size:13px}
-.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 20px}
-.quick-card{border:1px solid var(--line);background:#fff;border-radius:18px;padding:16px 10px;text-align:center;cursor:pointer;box-shadow:0 4px 14px rgba(18,47,91,.07);transition:.15s}
-.quick-card:hover{transform:translateY(-2px)}
-.quick-card .ico{font-size:28px;display:block;margin-bottom:8px}.quick-card b{font-size:14px;display:block}.quick-card span{font-size:11px;color:var(--muted);display:block;margin-top:4px}
-.appbar{display:none}
-.mobile-search-label{display:none}
-.search-actions{display:flex;gap:8px;margin-top:8px}.search-btn{border:0;min-height:48px;border-radius:12px;padding:12px 18px;background:#fff;color:var(--nav);font-weight:800;cursor:pointer}.search-page{display:none}.search-page.active{display:block}
-@media(max-width:700px){
- body{padding-bottom:76px} header{padding:16px 14px 14px;position:sticky;top:0} h1{font-size:21px;line-height:1.15} header p{font-size:12px;margin:5px 0 10px}.search{padding:13px 14px;border-radius:14px;font-size:15px}
- .wrap{width:100%;padding-left:12px;padding-right:12px}.tabs{display:none}.quick-grid{grid-template-columns:repeat(2,1fr);gap:10px}.quick-card{padding:15px 8px;min-height:96px}.quick-card .ico{font-size:26px;margin-bottom:5px}.quick-card b{font-size:13px}.quick-card span{font-size:10px}
- main.wrap{padding-top:8px}.module{border-radius:16px;padding:15px}.two{grid-template-columns:1fr!important}.grid{grid-template-columns:1fr!important}.policy{border-radius:15px}.row{flex-wrap:wrap}.btn,.ghost{padding:10px 12px;font-size:13px}h2{font-size:20px}h3{font-size:17px}.lead{font-size:14px}.step{padding:11px 12px}
- .appbar{display:flex;position:fixed;left:8px;right:8px;bottom:8px;height:60px;background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.15);z-index:100;align-items:center;justify-content:space-around}
- .appbar button{border:0;background:transparent;color:var(--muted);font-size:10px;font-weight:700;padding:7px 8px;display:flex;flex-direction:column;align-items:center;gap:2px}.appbar button .bi{font-size:20px;line-height:1}.appbar button.active{color:var(--nav)}
- .mobile-search-label{display:block;font-size:11px;color:#fff;opacity:.8;margin-bottom:5px}.search-actions{display:flex}.search-btn{flex:1;padding:12px}
-}
-.pdf-card {background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 3px 12px rgba(20,45,90,.05)}
-.pdf-card h4 {margin:0 0 8px;color:var(--nav);font-size:15px}
-.pdf-card p {margin:5px 0;font-size:13px;color:var(--muted)}
-.pdf-link {display:inline-block;background:var(--nav);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;margin-top:10px;font-size:12px;font-weight:600}
-.pdf-link:hover {background:var(--nav2)}
-.stat-box {display:inline-block;background:var(--soft);color:var(--nav);padding:8px 12px;border-radius:8px;margin:5px 5px 5px 0;font-size:12px;font-weight:600}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f0f2f5; color: #333; }
+header { background: #122f5b; color: white; padding: 20px; text-align: center; }
+header h1 { font-size: 24px; }
+header p { font-size: 14px; margin-top: 5px; opacity: 0.9; }
+.container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; border-bottom: 2px solid #ddd; }
+.tab { padding: 12px 20px; background: none; border: none; cursor: pointer; font-size: 14px; font-weight: bold; color: #122f5b; border-bottom: 3px solid transparent; }
+.tab.active { border-bottom-color: #122f5b; }
+.section { display: none; }
+.section.active { display: block; }
+.pdf-box { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin: 10px 0; }
+.pdf-box h3 { color: #122f5b; margin: 0 0 8px 0; font-size: 16px; }
+.pdf-box p { font-size: 13px; color: #666; margin: 0 0 10px 0; }
+.pdf-link { display: inline-block; background: #122f5b; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; }
+.pdf-link:hover { background: #1f5aa6; }
+footer { background: #f9f9f9; padding: 20px; text-align: center; color: #666; font-size: 12px; margin-top: 40px; }
 </style>
 </head>
 <body>
+
 <header>
-<div class="wrap">
-<h1>🏢 OICL AO Work & PDF Desk</h1>
-<p>📱 Complete reference: Policies, Forms, Claims, Workflows + PDF Downloads</p>
-<label class="mobile-search-label">🔎 Search everything</label>
-<input id="globalSearch" class="search" placeholder="Type: motor claim, fire, endorsement, PDF download..." autocomplete="off">
-<div class="search-actions"><button class="search-btn" type="button" onclick="runSearch()">🔎 SEARCH</button></div>
-<div id="searchResults" class="search-results hidden"></div>
-</div>
+<h1>📥 OICL AO PDF Desk</h1>
+<p>Download OICL Policy Wordings, Proposal Forms & Claim Forms</p>
 </header>
 
-<main class="wrap">
-<div class="tabs no-print">
-<button class="tab active" onclick="showSection('home',this)">🏠 Home</button>
-<button class="tab" onclick="showSection('pdfs',this)">📥 PDF Library</button>
-<button class="tab" onclick="showSection('policies',this)">📚 Policies</button>
-<button class="tab" onclick="showSection('forms',this)">📄 Forms</button>
-<button class="tab" onclick="showSection('claims',this)">📥 Claims</button>
-<button class="tab" onclick="showSection('workflows',this)">🧭 Workflows</button>
-<button class="tab" onclick="showSection('notes',this)">📝 Notes</button>
+<div class="container">
+
+<div class="tabs">
+<button class="tab active" onclick="showTab('policies')">📚 Policy Wordings</button>
+<button class="tab" onclick="showTab('forms')">📄 Proposal Forms</button>
+<button class="tab" onclick="showTab('claims')">📬 Claim Forms</button>
+<button class="tab" onclick="showTab('info')">ℹ️ Info</button>
 </div>
 
-<section id="home">
-<div class="module">
-<h2>Welcome to OICL AO Desk</h2>
-<p class="lead">Complete work reference for Administrative Officer (Scale-I) at Oriental Insurance Company Limited</p>
-<div class="good"><b>✅ What's Here:</b> Policy wordings, proposal forms, claim forms, OICL PDFs (direct download links), workflows, and personal notes.</div>
-</div>
-<div class="quick-grid no-print">
-<a class="quick-card" href="#pdfs" onclick="showSection('pdfs');return false;"><span class="ico">📥</span><b>Download PDFs</b><span>15+ Documents</span></a>
-<a class="quick-card" href="#policies" onclick="showSection('policies');return false;"><span class="ico">📚</span><b>Policies</b><span>All types</span></a>
-<a class="quick-card" href="#forms" onclick="showSection('forms');return false;"><span class="ico">📄</span><b>Proposal Forms</b><span>All types</span></a>
-<a class="quick-card" href="#claims" onclick="showSection('claims');return false;"><span class="ico">📬</span><b>Claim Forms</b><span>All types</span></a>
-</div>
-</section>
+<!-- POLICIES -->
+<div id="policies" class="section active">
+<h2>📚 Policy Wordings</h2>
+<p>Download all OICL policy wordings from the official source:</p>
 
-<section id="pdfs" class="hidden">
-<div class="module">
-<h2>📥 OICL PDF Library — Direct Downloads</h2>
-<p class="lead">Download all OICL policy wordings, proposal forms, and claim forms directly from official sources.</p>
-
-<div style="margin:15px 0">
-<div>
-<b>🔍 Search PDFs:</b>
-<input id="pdfSearch" class="search" placeholder="Search: motor policy, fire form, health claim..." style="margin:8px 0">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-<button class="btn" onclick="searchPDFs()">🔎 Search</button>
-<button class="ghost" onclick="resetPDFSearch()">Reset</button>
-</div>
-</div>
+<div class="pdf-box">
+<h3>Motor Policy Wording</h3>
+<p>Standard Motor Insurance Policy - Covers vehicle damage, liability, theft</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
 </div>
 
-<h3 style="margin-top:20px">📋 Policy Wordings</h3>
-<div id="policiesPDF"></div>
-
-<h3 style="margin-top:20px">📄 Proposal Forms</h3>
-<div id="formsPDF"></div>
-
-<h3 style="margin-top:20px">📬 Claim Forms</h3>
-<div id="claimsPDF"></div>
-
-<div id="pdfSearchResults" style="display:none;margin-top:30px">
-<h3>🔍 Search Results</h3>
-<div id="pdfResultsList"></div>
+<div class="pdf-box">
+<h3>Fire Policy Wording</h3>
+<p>Standard Fire Insurance Policy - Property & contents coverage</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
 </div>
-</section>
 
-<section id="policies" class="hidden">
-<h2>📚 Policy Wording Library</h2>
-<p class="lead">All OICL policy categories and types</p>
-<div class="grid">
-<div class="policy"><h3>Motor Insurance Policy</h3><p>Standard Motor Insurance Policy - Covers vehicles, liability, own damage</p><span class="pill">Policy</span><small>Get from PDF Library tab →</small></div>
-<div class="policy"><h3>Fire Insurance Policy</h3><p>Standard Fire Insurance Policy - Property, contents, coverage details</p><span class="pill">Policy</span><small>Get from PDF Library tab →</small></div>
-<div class="policy"><h3>Health Insurance Policy</h3><p>Health & Medical Insurance Policy - Coverage, limits, exclusions</p><span class="pill">Policy</span><small>Get from PDF Library tab →</small></div>
-<div class="policy"><h3>Miscellaneous Insurance</h3><p>Miscellaneous policies - Liability, engineering, specialty insurance</p><span class="pill">Policy</span><small>Get from PDF Library tab →</small></div>
-<div class="policy"><h3>Aviation Insurance</h3><p>Aviation Insurance Policy - Aircraft, liability, cargo coverage</p><span class="pill">Policy</span><small>Get from PDF Library tab →</small></div>
+<div class="pdf-box">
+<h3>Health Policy Wording</h3>
+<p>Health Insurance Policy - Medical coverage and benefits</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
 </div>
-</section>
 
-<section id="forms" class="hidden">
-<h2>📄 Proposal Form Library</h2>
-<p class="lead">All OICL proposal forms for new business underwriting</p>
-<div class="grid">
-<div class="policy"><h3>Motor Proposal Form</h3><p>Complete Motor Insurance Proposal Form for new underwriting</p><span class="pill">Form</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>Fire Proposal Form</h3><p>Complete Fire Insurance Proposal Form for new business</p><span class="pill">Form</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>Health Proposal Form</h3><p>Complete Health Insurance Proposal Form</p><span class="pill">Form</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>Miscellaneous Proposal</h3><p>Proposal Forms for all miscellaneous insurance types</p><span class="pill">Form</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>General Proposal Form</h3><p>Standard proposal form for all other insurance types</p><span class="pill">Form</span><small>Download from PDF Library →</small></div>
+<div class="pdf-box">
+<h3>Miscellaneous Policy</h3>
+<p>Miscellaneous Insurance Policies - Engineering, Liability, Specialty</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
 </div>
-</section>
 
-<section id="claims" class="hidden">
-<h2>📬 Claim Form Library</h2>
-<p class="lead">All OICL claim forms and submission documents</p>
-<div class="grid">
-<div class="policy"><h3>Motor Claim Form</h3><p>Motor Insurance Claim Form - e-claim, damage, theft, accident</p><span class="pill">Claim</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>Fire Claim Form</h3><p>Fire Insurance Claim Form - property damage, loss, assessment</p><span class="pill">Claim</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>Health Claim Form</h3><p>Health Insurance Claim Form - hospitalization, cashless, reimbursement</p><span class="pill">Claim</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>Miscellaneous Claim</h3><p>Claim Forms for miscellaneous insurance types</p><span class="pill">Claim</span><small>Download from PDF Library →</small></div>
-<div class="policy"><h3>Claim Documents Guide</h3><p>Required documents checklist for claim submission</p><span class="pill">Guide</span><small>Download from PDF Library →</small></div>
-</div>
-</section>
-
-<section id="workflows" class="hidden">
-<h2>🧭 AO Workflows</h2>
-<p class="lead">Daily work processes and decision flows</p>
-
-<div class="module">
-<h3>Motor Claim Workflow</h3>
-<div class="workflow">
-<div class="step"><b>1. Receive Claim</b><span>Call, email, or portal submission</span></div>
-<div class="step"><b>2. Verify Details</b><span>Policy, dates, coverage match</span></div>
-<div class="step"><b>3. Assess Claim</b><span>Review documents, survey if needed</span></div>
-<div class="step"><b>4. Authorize/Reject</b><span>Per DOP and policy terms</span></div>
-<div class="step"><b>5. Settlement</b><span>Process payment or communicate</span></div>
+<div class="pdf-box">
+<h3>Aviation Policy</h3>
+<p>Aviation Insurance Policy - Aircraft & aviation coverage</p>
+<a href="https://orientalinsurance.org.in/download-policy-terms-conditions" target="_blank" class="pdf-link">⬇️ Download PDF</a>
 </div>
 </div>
 
-<div class="module">
-<h3>Fire Claim Workflow</h3>
-<div class="workflow">
-<div class="step"><b>1. Claim Notice</b><span>Receive notice of loss</span></div>
-<div class="step"><b>2. Verification</b><span>Policy validity and coverage</span></div>
-<div class="step"><b>3. Survey</b><span>Physical inspection if required</span></div>
-<div class="step"><b>4. Settlement</b><span>Authorized amount based on loss</span></div>
+<!-- FORMS -->
+<div id="forms" class="section">
+<h2>📄 Proposal Forms</h2>
+<p>Download all OICL proposal forms from the official source:</p>
+
+<div class="pdf-box">
+<h3>Motor Proposal Form</h3>
+<p>Proposal Form for Motor Insurance Underwriting</p>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+
+<div class="pdf-box">
+<h3>Fire Proposal Form</h3>
+<p>Proposal Form for Fire Insurance</p>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+
+<div class="pdf-box">
+<h3>Health Proposal Form</h3>
+<p>Proposal Form for Health Insurance</p>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+
+<div class="pdf-box">
+<h3>Miscellaneous Proposal Form</h3>
+<p>Proposal Form for Miscellaneous Insurance</p>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+
+<div class="pdf-box">
+<h3>General Proposal Form</h3>
+<p>Standard Proposal Form for All Insurance Types</p>
+<a href="https://orientalinsurance.org.in/proposal-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
 </div>
 </div>
 
-<div class="module">
-<h3>Proposal Underwriting Workflow</h3>
-<div class="workflow">
-<div class="step"><b>1. Receive Proposal</b><span>Collect completed form</span></div>
-<div class="step"><b>2. Review Info</b><span>Verify applicant details</span></div>
-<div class="step"><b>3. Underwrite</b><span>Assess risk per guidelines</span></div>
-<div class="step"><b>4. Approve/Reject</b><span>Issue decision, communicate</span></div>
-<div class="step"><b>5. Issue Policy</b><span>Generate and deliver policy</span></div>
-</div>
-</div>
-</section>
+<!-- CLAIMS -->
+<div id="claims" class="section">
+<h2>📬 Claim Forms</h2>
+<p>Download all OICL claim forms from the official source:</p>
 
-<section id="notes" class="hidden">
-<div class="module">
-<h2>📝 My Personal Notes</h2>
-<p class="lead">Keep work notes, reminders, and personal reference items</p>
-<textarea id="noteBox" placeholder="Type your notes here... (reminders, important dates, reference info)" style="min-height:150px;margin-bottom:10px"></textarea>
-<br><button class="btn" onclick="saveNote()">Save Note</button>
-<button class="ghost" onclick="clearNotes()">Clear All</button>
-<div id="savedNotes" style="margin-top:15px"></div>
+<div class="pdf-box">
+<h3>Motor Claim Form</h3>
+<p>Claim Form for Motor Insurance - e-claim, damage, theft</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
 </div>
-</section>
 
-<nav class="appbar no-print">
-<button onclick="showSection('home',this)"><span class="bi">🏠</span>Home</button>
-<button onclick="showSection('pdfs',this)"><span class="bi">📥</span>PDFs</button>
-<button onclick="showSection('policies',this)"><span class="bi">📚</span>Policies</button>
-<button onclick="showSection('workflows',this)"><span class="bi">🧭</span>Workflows</button>
-<button onclick="showSection('notes',this)"><span class="bi">📝</span>Notes</button>
-<button onclick="focusSearch()"><span class="bi">🔎</span>Search</button>
-</nav>
+<div class="pdf-box">
+<h3>Fire Claim Form</h3>
+<p>Claim Form for Fire Insurance - property damage, loss</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+
+<div class="pdf-box">
+<h3>Health Claim Form</h3>
+<p>Claim Form for Health Insurance - hospitalization, cashless</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+
+<div class="pdf-box">
+<h3>Miscellaneous Claim Form</h3>
+<p>Claim Form for Miscellaneous Insurance</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+
+<div class="pdf-box">
+<h3>Claim Documents Checklist</h3>
+<p>Required documents for claim submission</p>
+<a href="https://orientalinsurance.org.in/claim-form" target="_blank" class="pdf-link">⬇️ Download PDF</a>
+</div>
+</div>
+
+<!-- INFO -->
+<div id="info" class="section">
+<h2>ℹ️ How to Download PDFs</h2>
+<div class="pdf-box">
+<h3>📥 How It Works</h3>
+<p><strong>Step 1:</strong> Click any "Download PDF" button above</p>
+<p><strong>Step 2:</strong> You'll go to OICL's official website</p>
+<p><strong>Step 3:</strong> Look for the document you need and click it</p>
+<p><strong>Step 4:</strong> The PDF will download to your computer</p>
+</div>
+
+<div class="pdf-box">
+<h3>OICL Official Links</h3>
+<p><strong>Policies:</strong> orientalinsurance.org.in/download-policy-terms-conditions</p>
+<p><strong>Proposal Forms:</strong> orientalinsurance.org.in/proposal-form</p>
+<p><strong>Claim Forms:</strong> orientalinsurance.org.in/claim-form</p>
+</div>
+
+<div class="pdf-box">
+<h3>Contact OICL</h3>
+<p><strong>Customer Care:</strong> 1800-102-2013 (Toll-Free)</p>
+<p><strong>Corporate HO:</strong> 011-24348348</p>
+<p><strong>Website:</strong> orientalinsurance.org.in</p>
+</div>
+</div>
+
+</div>
 
 <footer>
-<div class="wrap">
-<b>OICL AO Work & PDF Desk</b><br>
-Administrative Officer (Scale-I) reference tool for Oriental Insurance Company Limited.<br>
-<small>📱 Mobile-friendly | 🔎 Searchable | 📥 Direct PDF downloads from OICL official sources</small>
-</div>
+<p><strong>OICL AO PDF Desk</strong></p>
+<p>Administrative Officer (Scale-I) Reference Tool for Oriental Insurance Company Limited</p>
+<p>All PDFs link to official OICL sources | Mobile-friendly | No tracking</p>
 </footer>
-</main>
 
 <script>
-(function(){
-  'use strict';
+function showTab(tabName) {
+  // Hide all sections
+  const sections = document.querySelectorAll('.section');
+  sections.forEach(s => s.classList.remove('active'));
   
-  function byId(id){return document.getElementById(id);}
-  function clean(v){return String(v==null?'':v).toLowerCase().replace(/&amp;/g,'&').replace(/[^a-z0-9]+/g,' ').trim();}
-  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  // Remove active class from all tabs
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(t => t.classList.remove('active'));
   
-  // PDF LIBRARY DATA
-  var PDFS = {
-    policies: [
-      {name:'Motor Policy Wording',cat:'Policy',desc:'Standard Motor Insurance Policy - Covers vehicle damage, liability, theft',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'motor policy wording'},
-      {name:'Fire Policy Wording',cat:'Policy',desc:'Standard Fire Insurance Policy - Property & contents coverage',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'fire policy wording'},
-      {name:'Health Policy Wording',cat:'Policy',desc:'Health Insurance Policy - Medical coverage and benefits',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'health policy medical'},
-      {name:'Miscellaneous Policy',cat:'Policy',desc:'Miscellaneous Insurance Policies - Engineering, Liability, Specialty',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'miscellaneous policy'},
-      {name:'Aviation Policy',cat:'Policy',desc:'Aviation Insurance Policy - Aircraft & aviation coverage',link:'https://orientalinsurance.org.in/download-policy-terms-conditions',tags:'aviation policy aircraft'}
-    ],
-    forms: [
-      {name:'Motor Proposal Form',cat:'Form',desc:'Proposal Form for Motor Insurance Underwriting',link:'https://orientalinsurance.org.in/proposal-form',tags:'motor proposal form'},
-      {name:'Fire Proposal Form',cat:'Form',desc:'Proposal Form for Fire Insurance',link:'https://orientalinsurance.org.in/proposal-form',tags:'fire proposal form'},
-      {name:'Health Proposal Form',cat:'Form',desc:'Proposal Form for Health Insurance',link:'https://orientalinsurance.org.in/proposal-form',tags:'health proposal'},
-      {name:'Miscellaneous Proposal Form',cat:'Form',desc:'Proposal Form for Miscellaneous Insurance',link:'https://orientalinsurance.org.in/proposal-form',tags:'miscellaneous proposal'},
-      {name:'General Proposal Form',cat:'Form',desc:'Standard Proposal Form for All Insurance Types',link:'https://orientalinsurance.org.in/proposal-form',tags:'general proposal'}
-    ],
-    claims: [
-      {name:'Motor Claim Form',cat:'Claim',desc:'Claim Form for Motor Insurance - e-claim, damage, theft',link:'https://orientalinsurance.org.in/claim-form',tags:'motor claim form e-claim'},
-      {name:'Fire Claim Form',cat:'Claim',desc:'Claim Form for Fire Insurance - property damage, loss',link:'https://orientalinsurance.org.in/claim-form',tags:'fire claim'},
-      {name:'Health Claim Form',cat:'Claim',desc:'Claim Form for Health Insurance - hospitalization, cashless',link:'https://orientalinsurance.org.in/claim-form',tags:'health claim hospitalization'},
-      {name:'Miscellaneous Claim Form',cat:'Claim',desc:'Claim Form for Miscellaneous Insurance',link:'https://orientalinsurance.org.in/claim-form',tags:'miscellaneous claim'},
-      {name:'Claim Documents Checklist',cat:'Guide',desc:'Required documents for claim submission',link:'https://orientalinsurance.org.in/claim-form',tags:'claim documents checklist'}
-    ]
-  };
-
-  function renderPDFs(){
-    var polHTML='', formHTML='', claimHTML='';
-    for(var i=0;i<PDFS.policies.length;i++){
-      var p=PDFS.policies[i];
-      polHTML+='<div class="pdf-card"><h4>'+esc(p.name)+'</h4><p>'+esc(p.desc)+'</p><a href="'+p.link+'" target="_blank" class="pdf-link">⬇️ Download PDF</a></div>';
-    }
-    for(var i=0;i<PDFS.forms.length;i++){
-      var p=PDFS.forms[i];
-      formHTML+='<div class="pdf-card"><h4>'+esc(p.name)+'</h4><p>'+esc(p.desc)+'</p><a href="'+p.link+'" target="_blank" class="pdf-link">⬇️ Download PDF</a></div>';
-    }
-    for(var i=0;i<PDFS.claims.length;i++){
-      var p=PDFS.claims[i];
-      claimHTML+='<div class="pdf-card"><h4>'+esc(p.name)+'</h4><p>'+esc(p.desc)+'</p><a href="'+p.link+'" target="_blank" class="pdf-link">⬇️ Download PDF</a></div>';
-    }
-    byId('policiesPDF').innerHTML=polHTML;
-    byId('formsPDF').innerHTML=formHTML;
-    byId('claimsPDF').innerHTML=claimHTML;
-  }
-
-  function searchPDFs(){
-    var q=clean(byId('pdfSearch').value||'');
-    if(!q){resetPDFSearch();return;}
-    
-    var results=[];
-    for(var cat in PDFS){
-      for(var i=0;i<PDFS[cat].length;i++){
-        var p=PDFS[cat][i];
-        var hay=clean(p.name+' '+p.desc+' '+p.tags);
-        var terms=q.split(/\s+/).filter(Boolean);
-        var hits=0;
-        for(var t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits++;
-        if(hits)results.push({pdf:p,score:hits/terms.length});
-      }
-    }
-    results.sort(function(a,b){return b.score-a.score;});
-    
-    var html='';
-    if(results.length){
-      for(var i=0;i<results.length;i++){
-        var p=results[i].pdf;
-        html+='<div class="pdf-card"><h4>'+esc(p.name)+'</h4><p>'+esc(p.desc)+'</p><span class="stat-box">'+esc(p.cat)+'</span><a href="'+p.link+'" target="_blank" class="pdf-link">⬇️ Download PDF</a></div>';
-      }
-    }else{
-      html='<div class="note">No PDFs found matching "'+esc(q)+'". Try: motor, fire, health, claim, form, proposal</div>';
-    }
-    byId('pdfResultsList').innerHTML=html;
-    byId('pdfSearchResults').style.display='block';
-  }
-
-  function resetPDFSearch(){
-    byId('pdfSearch').value='';
-    byId('pdfSearchResults').style.display='none';
-  }
-
-  function showSection(id,clicked){
-    var sections=document.querySelectorAll('main > section');
-    for(var i=0;i<sections.length;i++)sections[i].classList.add('hidden');
-    var target=byId(id);if(target)target.classList.remove('hidden');
-    var tabs=document.querySelectorAll('.tab');for(var j=0;j<tabs.length;j++)tabs[j].classList.remove('active');
-    if(clicked&&clicked.classList)clicked.classList.add('active');
-    try{history.replaceState(null,'','#'+id);}catch(e){location.hash=id;}
-    window.scrollTo(0,0);
-  }
-
-  function focusSearch(){var input=byId('globalSearch');if(input){input.focus();try{input.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}}
+  // Show selected section
+  document.getElementById(tabName).classList.add('active');
   
-  function runSearch(e){
-    if(e&&e.preventDefault)e.preventDefault();
-    var input=byId('globalSearch'),q=clean(input.value||'');
-    if(!q){return false;}
-    
-    var results=[];
-    
-    // Search PDFs
-    for(var cat in PDFS){
-      for(var i=0;i<PDFS[cat].length;i++){
-        var p=PDFS[cat][i];
-        var hay=clean(p.name+' '+p.desc+' '+p.tags);
-        var terms=q.split(/\s+/).filter(Boolean);
-        var hits=0;
-        for(var t=0;t<terms.length;t++)if(hay.indexOf(terms[t])>=0)hits++;
-        if(hits)results.push({type:'pdf',id:'pdfs',title:p.name,cat:p.cat,score:hits/terms.length});
-      }
-    }
-    
-    results.sort(function(a,b){return b.score-a.score;});results=results.slice(0,30);
-    
-    var box=byId('searchResults');
-    var html='<div style="padding:10px;font-weight:800;color:#122f5b;border-bottom:1px solid #dfe6f0">Found '+results.length+' result'+(results.length===1?'':'s')+' for "'+esc(input.value)+'"</div>';
-    if(!results.length)html+='<div class="search-empty">No results. Try: motor, fire, health, claim, policy, form, proposal, download</div>';
-    box.innerHTML=html;
-    
-    for(var i=0;i<results.length;i++){
-      (function(item){
-        var b=document.createElement('button');
-        b.type='button';
-        b.className='search-result';
-        b.innerHTML='<b>'+esc(item.title)+'</b><span>'+esc(item.cat)+' — Tap to open</span>';
-        b.onclick=function(){showSection(item.id);box.classList.add('hidden');};
-        box.appendChild(b);
-      })(results[i]);
-    }
-    return false;
-  }
-
-  function saveNote(){
-    var box=byId('noteBox'),out=byId('savedNotes');
-    if(!box||!out)return;
-    var n=[];
-    try{n=JSON.parse(localStorage.getItem('oiclNotes')||'[]');}catch(e){}
-    if(box.value.trim())n.push({text:box.value.trim(),time:new Date().toLocaleString()});
-    try{localStorage.setItem('oiclNotes',JSON.stringify(n));}catch(e){}
-    box.value='';
-    renderNotes();
-  }
-
-  function renderNotes(){
-    var out=byId('savedNotes');
-    if(!out)return;
-    var n=[];
-    try{n=JSON.parse(localStorage.getItem('oiclNotes')||'[]');}catch(e){}
-    out.innerHTML='';
-    for(var i=0;i<n.length;i++){
-      out.innerHTML+='<div class="module"><b>'+esc(n[i].time)+'</b><p>'+esc(n[i].text)+'</p></div>';
-    }
-  }
-
-  function clearNotes(){
-    if(confirm('Clear all notes?')){
-      try{localStorage.removeItem('oiclNotes');}catch(e){}
-      renderNotes();
-    }
-  }
-
-  window.showSection=showSection;
-  window.focusSearch=focusSearch;
-  window.runSearch=runSearch;
-  window.saveNote=saveNote;
-  window.clearNotes=clearNotes;
-  window.searchPDFs=searchPDFs;
-  window.resetPDFSearch=resetPDFSearch;
-
-  document.addEventListener('DOMContentLoaded',function(){
-    var input=byId('globalSearch'),button=document.querySelector('.search-btn');
-    if(button)button.addEventListener('click',runSearch);
-    if(input)input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();runSearch(e);}});
-    renderPDFs();
-    renderNotes();
-    if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(function(){});
-  });
-})();
+  // Add active class to clicked tab
+  event.target.classList.add('active');
+}
 </script>
+
 </body>
 </html>
